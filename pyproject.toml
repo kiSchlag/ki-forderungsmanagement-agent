@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ki-forderungsmanagement-agent"
+version = "0.1.0"
+description = "Microsoft 365 Copilot Studio Agent fuer das Forderungsmanagement im DACH-Mittelstand"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "kiSchlag" }]
+keywords = [
+    "copilot-studio",
+    "dataverse",
+    "power-platform",
+    "power-automate",
+    "accounts-receivable",
+    "forderungsmanagement",
+    "microsoft-365",
+    "ai-agent",
+    "dso",
+    "dach",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: German",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial",
+]
+dependencies = [
+    "msal>=1.28",
+    "requests>=2.31",
+    "ijson>=3.2",
+    "numpy>=1.26",
+    "faker>=24.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.6",
+    "pytest>=8.0",
+]
+
+[project.scripts]
+ki-fm-export-metadata = "ki_forderungsmanagement.export_metadata:main"
+ki-fm-build-shortlist = "ki_forderungsmanagement.build_shortlist:main"
+ki-fm-provision-schema = "ki_forderungsmanagement.provision_schema:main"
+ki-fm-generate-data = "ki_forderungsmanagement.generate_synthetic_data:main"
+ki-fm-seed-invoices = "ki_forderungsmanagement.seed_invoices:main"
+ki-fm-list-open-invoices = "ki_forderungsmanagement.list_open_invoices:main"
+
+[project.urls]
+Homepage = "https://github.com/kiSchlag/ki-forderungsmanagement-agent"
+Issues = "https://github.com/kiSchlag/ki-forderungsmanagement-agent/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501"]

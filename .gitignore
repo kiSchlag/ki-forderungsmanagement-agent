@@ -1,0 +1,49 @@
+# Secrets
+.env
+.env.local
+*.pem
+*.key
+
+# Python build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Claude Code session state (not part of the repository)
+.claude/
+
+# Project-specific large artifacts (regeneratable)
+output/
+synthetic_data_preview/
+synthetic_id_map.json
+synthetic_data_progress.json
+dataverse_metadata.json
+dataverse_metadata.partial.json
+*.partial.json
+
+# Allow the curated schema shortlist (defines the schema scope)
+!data/scenario_table_shortlist.json

@@ -1,0 +1,5412 @@
+{
+  "extracted_entities": [
+    "customer",
+    "contact",
+    "address",
+    "invoice",
+    "invoice_line",
+    "payment",
+    "sales_order",
+    "sales_order_line",
+    "quote",
+    "product",
+    "price_list",
+    "email",
+    "task",
+    "case_or_dispute",
+    "phone_call",
+    "appointment",
+    "letter",
+    "note_or_attachment",
+    "contract",
+    "contract_line",
+    "user",
+    "team",
+    "business_unit",
+    "transaction_currency",
+    "queue",
+    "queue_item",
+    "connection",
+    "payment_event",
+    "payment_plan",
+    "sepa_mandate",
+    "dunning_event",
+    "credit_signal",
+    "risk_score_history",
+    "agent_decision_log",
+    "delivery_note",
+    "lifetime_value_snapshot",
+    "churn_signal",
+    "communication_preference"
+  ],
+  "standard_tables": [
+    {
+      "entity_concept": "customer",
+      "scenarios_served": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "table": {
+        "logical_name": "account",
+        "schema_name": "Account",
+        "display_name": "Account",
+        "description": "Business that represents a customer or potential customer. The company that is billed in business transactions.",
+        "primary_id_attribute": "accountid",
+        "primary_name_attribute": "name",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "accountid",
+            "schema_name": "AccountId",
+            "display_name": "Account",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the account."
+          },
+          {
+            "logical_name": "name",
+            "schema_name": "Name",
+            "display_name": "Account Name",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Type the company or business name.",
+            "max_length": 160,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the account is active or inactive. Inactive accounts are read-only and can't be edited unless they are reactivated."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Select the account's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Enter the user or team who is assigned to manage the record. This field is updated every time the record is assigned to a different user.",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was created. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was last updated. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "accountcategorycode",
+            "schema_name": "AccountCategoryCode",
+            "display_name": "Category",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select a category to indicate whether the customer account is standard or preferred."
+          },
+          {
+            "logical_name": "accountnumber",
+            "schema_name": "AccountNumber",
+            "display_name": "Account Number",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type an ID number or code for the account to quickly search and identify the account in system views.",
+            "max_length": 20,
+            "format": "Text"
+          },
+          {
+            "logical_name": "creditlimit",
+            "schema_name": "CreditLimit",
+            "display_name": "Credit Limit",
+            "type": "Money",
+            "required_level": "None",
+            "description": "Type the credit limit of the account. This is a useful reference when you address invoice and accounting issues with the customer."
+          },
+          {
+            "logical_name": "creditonhold",
+            "schema_name": "CreditOnHold",
+            "display_name": "Credit Hold",
+            "type": "Boolean",
+            "required_level": "None",
+            "description": "Select whether the credit for the account is on hold. This is a useful reference while addressing the invoice and accounting issues with the customer."
+          },
+          {
+            "logical_name": "creditonholdname",
+            "schema_name": "CreditOnHoldName",
+            "display_name": null,
+            "type": "Virtual",
+            "required_level": "None"
+          },
+          {
+            "logical_name": "customersizecode",
+            "schema_name": "CustomerSizeCode",
+            "display_name": "Customer Size",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the size category or range of the account for segmentation and reporting purposes."
+          },
+          {
+            "logical_name": "customertypecode",
+            "schema_name": "CustomerTypeCode",
+            "display_name": "Relationship Type",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the category that best describes the relationship between the account and your organization."
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "contact",
+      "scenarios_served": [
+        2,
+        3,
+        8,
+        10
+      ],
+      "table": {
+        "logical_name": "contact",
+        "schema_name": "Contact",
+        "display_name": "Contact",
+        "description": "Person with whom a business unit has a relationship, such as customer, supplier, and colleague.",
+        "primary_id_attribute": "contactid",
+        "primary_name_attribute": "fullname",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "contactid",
+            "schema_name": "ContactId",
+            "display_name": "Contact",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the contact."
+          },
+          {
+            "logical_name": "fullname",
+            "schema_name": "FullName",
+            "display_name": "Full Name",
+            "type": "String",
+            "required_level": "None",
+            "description": "Combines and shows the contact's first and last names so that the full name can be displayed in views and reports.",
+            "max_length": 160,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the contact is active or inactive. Inactive contacts are read-only and can't be edited unless they are reactivated."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Select the contact's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Enter the user or team who is assigned to manage the record. This field is updated every time the record is assigned to a different user.",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was created. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was last updated. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "creditlimit",
+            "schema_name": "CreditLimit",
+            "display_name": "Credit Limit",
+            "type": "Money",
+            "required_level": "None",
+            "description": "Type the credit limit of the contact for reference when you address invoice and accounting issues with the customer."
+          },
+          {
+            "logical_name": "creditonhold",
+            "schema_name": "CreditOnHold",
+            "display_name": "Credit Hold",
+            "type": "Boolean",
+            "required_level": "None",
+            "description": "Select whether the contact is on a credit hold, for reference when addressing invoice and accounting issues."
+          },
+          {
+            "logical_name": "creditonholdname",
+            "schema_name": "CreditOnHoldName",
+            "display_name": null,
+            "type": "Virtual",
+            "required_level": "None"
+          },
+          {
+            "logical_name": "customersizecode",
+            "schema_name": "CustomerSizeCode",
+            "display_name": "Customer Size",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the size of the contact's company for segmentation and reporting purposes."
+          },
+          {
+            "logical_name": "customertypecode",
+            "schema_name": "CustomerTypeCode",
+            "display_name": "Relationship Type",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the category that best describes the relationship between the contact and your organization."
+          },
+          {
+            "logical_name": "lastonholdtime",
+            "schema_name": "LastOnHoldTime",
+            "display_name": "Last On Hold Time",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Contains the date and time stamp of the last on hold time.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "onholdtime",
+            "schema_name": "OnHoldTime",
+            "display_name": "On Hold Time (Minutes)",
+            "type": "Integer",
+            "required_level": "None",
+            "description": "Shows how long, in minutes, that the record was on hold.",
+            "format": "None"
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "address",
+      "scenarios_served": [
+        3,
+        5,
+        6,
+        9
+      ],
+      "table": {
+        "logical_name": "customeraddress",
+        "schema_name": "CustomerAddress",
+        "display_name": "Address",
+        "description": "Address and shipping information. Used to store additional addresses for an account or contact.",
+        "primary_id_attribute": "customeraddressid",
+        "primary_name_attribute": "name",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "customeraddressid",
+            "schema_name": "CustomerAddressId",
+            "display_name": "Address",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the customer address."
+          },
+          {
+            "logical_name": "name",
+            "schema_name": "Name",
+            "display_name": "Address Name",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Type a descriptive name for the customer's address, such as Corporate Headquarters.",
+            "max_length": 200,
+            "format": "Text"
+          },
+          {
+            "logical_name": "addressnumber",
+            "schema_name": "AddressNumber",
+            "display_name": "Address Number",
+            "type": "Integer",
+            "required_level": "None",
+            "description": "Shows the number of the address, to indicate whether the address is the primary, secondary, or other address for the customer.",
+            "format": "None"
+          },
+          {
+            "logical_name": "addresstypecode",
+            "schema_name": "AddressTypeCode",
+            "display_name": "Address Type",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the address type, such as primary or billing."
+          },
+          {
+            "logical_name": "line1",
+            "schema_name": "Line1",
+            "display_name": "Street 1",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Type the first line of the customer's address to help identify the location.",
+            "max_length": 250,
+            "format": "Text"
+          },
+          {
+            "logical_name": "line2",
+            "schema_name": "Line2",
+            "display_name": "Street 2",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type the second line of the customer's address.",
+            "max_length": 250,
+            "format": "Text"
+          },
+          {
+            "logical_name": "city",
+            "schema_name": "City",
+            "display_name": "City",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type the city for the customer's address to help identify the location.",
+            "max_length": 80,
+            "format": "Text"
+          },
+          {
+            "logical_name": "postalcode",
+            "schema_name": "PostalCode",
+            "display_name": "ZIP/Postal Code",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type the ZIP Code or postal code for the address.",
+            "max_length": 20,
+            "format": "Text"
+          },
+          {
+            "logical_name": "stateorprovince",
+            "schema_name": "StateOrProvince",
+            "display_name": "State/Province",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type the state or province of the customer's address.",
+            "max_length": 50,
+            "format": "Text"
+          },
+          {
+            "logical_name": "country",
+            "schema_name": "Country",
+            "display_name": "Country/Region",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type the country or region for the customer's address.",
+            "max_length": 80,
+            "format": "Text"
+          },
+          {
+            "logical_name": "telephone1",
+            "schema_name": "Telephone1",
+            "display_name": "Main Phone",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type the primary phone number for the customer's address.",
+            "max_length": 50,
+            "format": "Text"
+          },
+          {
+            "logical_name": "parentid",
+            "schema_name": "ParentId",
+            "display_name": "Parent",
+            "type": "Lookup",
+            "required_level": "SystemRequired",
+            "description": "Choose the customer's address.",
+            "lookup_targets": [
+              "account",
+              "contact"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was created. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was last updated. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "invoice",
+      "scenarios_served": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9
+      ],
+      "table": {
+        "logical_name": "invoice",
+        "schema_name": "Invoice",
+        "display_name": "Invoice",
+        "description": "Order that has been billed.",
+        "primary_id_attribute": "invoiceid",
+        "primary_name_attribute": "name",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "invoiceid",
+            "schema_name": "InvoiceId",
+            "display_name": "Invoice",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the invoice."
+          },
+          {
+            "logical_name": "name",
+            "schema_name": "Name",
+            "display_name": "Name",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Type a descriptive name for the invoice.",
+            "max_length": 300,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the invoice is active, paid, or canceled. Paid and canceled invoices are read-only and can't be edited unless they are reactivated."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Select the invoice's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Owner Id",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "datedelivered",
+            "schema_name": "DateDelivered",
+            "display_name": "Date Delivered",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Enter the date when the products included in the invoice were delivered.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "duedate",
+            "schema_name": "DueDate",
+            "display_name": "Due Date",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Enter the date by which the invoice should be paid by the customer.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "freightamount",
+            "schema_name": "FreightAmount",
+            "display_name": "Freight Amount",
+            "type": "Money",
+            "required_level": "None",
+            "description": "Type the cost of freight or shipping for the products included in the invoice for use in calculating the total amount due."
+          },
+          {
+            "logical_name": "invoicenumber",
+            "schema_name": "InvoiceNumber",
+            "display_name": "Invoice ID",
+            "type": "String",
+            "required_level": "SystemRequired",
+            "description": "Shows the identifying number or code of the invoice.",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "lastonholdtime",
+            "schema_name": "LastOnHoldTime",
+            "display_name": "Last On Hold Time",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Contains the date time stamp of the last on hold time.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "onholdtime",
+            "schema_name": "OnHoldTime",
+            "display_name": "On Hold Time (Minutes)",
+            "type": "Integer",
+            "required_level": "None",
+            "description": "Shows the duration in minutes for which the invoice was on hold.",
+            "format": "None"
+          },
+          {
+            "logical_name": "paymenttermscode",
+            "schema_name": "PaymentTermsCode",
+            "display_name": "Payment Terms",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the payment terms to indicate when the customer needs to pay the total amount."
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "invoice_line",
+      "scenarios_served": [
+        6,
+        9
+      ],
+      "table": {
+        "logical_name": "invoicedetail",
+        "schema_name": "InvoiceDetail",
+        "display_name": "Invoice Product",
+        "description": "Line item in an invoice containing detailed billing information for a product.",
+        "primary_id_attribute": "invoicedetailid",
+        "primary_name_attribute": "invoicedetailname",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "invoicedetailid",
+            "schema_name": "InvoiceDetailId",
+            "display_name": "Invoice Product",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the invoice product line item."
+          },
+          {
+            "logical_name": "invoicedetailname",
+            "schema_name": "InvoiceDetailName",
+            "display_name": "Name",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Invoice Detail Name. Added for 1:n referential relationship (internal purposes only)",
+            "max_length": 850,
+            "format": "Text"
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "ApplicationRequired",
+            "description": "Owner Id",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "extendedamount",
+            "schema_name": "ExtendedAmount",
+            "display_name": "Extended Amount",
+            "type": "Money",
+            "required_level": "None",
+            "description": "Shows the total amount due for the invoice product, based on the sum of the unit price, quantity, discounts, and tax."
+          },
+          {
+            "logical_name": "priceperunit",
+            "schema_name": "PricePerUnit",
+            "display_name": "Price Per Unit",
+            "type": "Money",
+            "required_level": "None",
+            "description": "Type the price per unit of the invoice product. The default is the value in the price list specified on the parent invoice for existing products."
+          },
+          {
+            "logical_name": "invoiceid",
+            "schema_name": "InvoiceId",
+            "display_name": "Invoice ID",
+            "type": "Lookup",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the invoice associated with the invoice product line item.",
+            "lookup_targets": [
+              "invoice"
+            ]
+          },
+          {
+            "logical_name": "productid",
+            "schema_name": "ProductId",
+            "display_name": "Existing Product",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Choose the product to include on the invoice.",
+            "lookup_targets": [
+              "product"
+            ]
+          },
+          {
+            "logical_name": "shipto_city",
+            "schema_name": "ShipTo_City",
+            "display_name": "Ship To City",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type the city for the customer's shipping address.",
+            "max_length": 80,
+            "format": "Text"
+          },
+          {
+            "logical_name": "shipto_country",
+            "schema_name": "ShipTo_Country",
+            "display_name": "Ship To Country/Region",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type the country or region for the customer's shipping address.",
+            "max_length": 80,
+            "format": "Text"
+          },
+          {
+            "logical_name": "shipto_postalcode",
+            "schema_name": "ShipTo_PostalCode",
+            "display_name": "Ship To ZIP/Postal Code",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type the ZIP Code or postal code for the shipping address.",
+            "max_length": 20,
+            "format": "Text"
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Shows who created the record.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "modifiedby",
+            "schema_name": "ModifiedBy",
+            "display_name": "Modified By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Shows who last updated the record.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "sales_order",
+      "scenarios_served": [
+        5,
+        6,
+        9
+      ],
+      "table": {
+        "logical_name": "salesorder",
+        "schema_name": "SalesOrder",
+        "display_name": "Order",
+        "description": "Quote that has been accepted.",
+        "primary_id_attribute": "salesorderid",
+        "primary_name_attribute": "name",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "salesorderid",
+            "schema_name": "SalesOrderId",
+            "display_name": "Order",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the order."
+          },
+          {
+            "logical_name": "name",
+            "schema_name": "Name",
+            "display_name": "Name",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Type a descriptive name for the order.",
+            "max_length": 300,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the order is active, submitted, fulfilled, canceled, or invoiced. Only active orders can be edited."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Select the order's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Owner Id",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "datefulfilled",
+            "schema_name": "DateFulfilled",
+            "display_name": "Date Fulfilled",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Enter the date that all or part of the order was shipped to the customer.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "freightamount",
+            "schema_name": "FreightAmount",
+            "display_name": "Freight Amount",
+            "type": "Money",
+            "required_level": "None",
+            "description": "Type the cost of freight or shipping for the products included in the order for use in calculating the Total Amount field."
+          },
+          {
+            "logical_name": "lastonholdtime",
+            "schema_name": "LastOnHoldTime",
+            "display_name": "Last On Hold Time",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Contains the date time stamp of the last on hold time.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "onholdtime",
+            "schema_name": "OnHoldTime",
+            "display_name": "On Hold Time (Minutes)",
+            "type": "Integer",
+            "required_level": "None",
+            "description": "Shows the duration in minutes for which the order was on hold.",
+            "format": "None"
+          },
+          {
+            "logical_name": "ordernumber",
+            "schema_name": "OrderNumber",
+            "display_name": "Order ID",
+            "type": "String",
+            "required_level": "SystemRequired",
+            "description": "Shows the order number for customer reference and to use in search. The number cannot be modified.",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "paymenttermscode",
+            "schema_name": "PaymentTermsCode",
+            "display_name": "Payment Terms",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the payment terms to indicate when the customer needs to pay the total amount."
+          },
+          {
+            "logical_name": "prioritycode",
+            "schema_name": "PriorityCode",
+            "display_name": "Priority",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the priority so that preferred customers or critical issues are handled quickly."
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "sales_order_line",
+      "scenarios_served": [
+        5,
+        6,
+        9
+      ],
+      "table": {
+        "logical_name": "salesorderdetail",
+        "schema_name": "SalesOrderDetail",
+        "display_name": "Order Product",
+        "description": "Line item in a sales order.",
+        "primary_id_attribute": "salesorderdetailid",
+        "primary_name_attribute": "salesorderdetailname",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "salesorderdetailid",
+            "schema_name": "SalesOrderDetailId",
+            "display_name": "Order Product",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the product specified in the order."
+          },
+          {
+            "logical_name": "salesorderdetailname",
+            "schema_name": "SalesOrderDetailName",
+            "display_name": "Name",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Sales Order Detail Name. Added for 1:n referential relationship (internal purposes only)",
+            "max_length": 500,
+            "format": "Text"
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "ApplicationRequired",
+            "description": "Owner Id",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "extendedamount",
+            "schema_name": "ExtendedAmount",
+            "display_name": "Extended Amount",
+            "type": "Money",
+            "required_level": "None",
+            "description": "Shows the total amount due for the order product, based on the sum of the unit price, quantity, discounts, and tax."
+          },
+          {
+            "logical_name": "priceperunit",
+            "schema_name": "PricePerUnit",
+            "display_name": "Price Per Unit",
+            "type": "Money",
+            "required_level": "None",
+            "description": "Type the price per unit of the order product. The default is the value in the price list specified on the order for existing products."
+          },
+          {
+            "logical_name": "productid",
+            "schema_name": "ProductId",
+            "display_name": "Existing Product",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Choose the product to include on the order to link the product's pricing and other information to the parent order.",
+            "lookup_targets": [
+              "product"
+            ]
+          },
+          {
+            "logical_name": "salesorderid",
+            "schema_name": "SalesOrderId",
+            "display_name": "Order",
+            "type": "Lookup",
+            "required_level": "SystemRequired",
+            "description": "Shows the order for the product. The ID is used to link product pricing and other details to the total amounts and other information on the order.",
+            "lookup_targets": [
+              "salesorder"
+            ]
+          },
+          {
+            "logical_name": "shipto_city",
+            "schema_name": "ShipTo_City",
+            "display_name": "Ship To City",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type the city for the customer's shipping address.",
+            "max_length": 80,
+            "format": "Text"
+          },
+          {
+            "logical_name": "shipto_country",
+            "schema_name": "ShipTo_Country",
+            "display_name": "Ship To Country/Region",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type the country or region for the customer's shipping address.",
+            "max_length": 80,
+            "format": "Text"
+          },
+          {
+            "logical_name": "shipto_postalcode",
+            "schema_name": "ShipTo_PostalCode",
+            "display_name": "Ship To ZIP/Postal Code",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type the ZIP Code or postal code for the shipping address.",
+            "max_length": 20,
+            "format": "Text"
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Shows who created the record.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "modifiedby",
+            "schema_name": "ModifiedBy",
+            "display_name": "Modified By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Shows who last updated the record.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "quote",
+      "scenarios_served": [
+        5,
+        9
+      ],
+      "table": {
+        "logical_name": "quote",
+        "schema_name": "Quote",
+        "display_name": "Quote",
+        "description": "Formal offer for products and/or services, proposed at specific prices and related payment terms, which is sent to a prospective customer.",
+        "primary_id_attribute": "quoteid",
+        "primary_name_attribute": "name",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "quoteid",
+            "schema_name": "QuoteId",
+            "display_name": "Quote",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the quote."
+          },
+          {
+            "logical_name": "name",
+            "schema_name": "Name",
+            "display_name": "Name",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Type a descriptive name for the quote.",
+            "max_length": 300,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the quote is draft, active, won, or closed. Only draft quotes can be edited."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Select the quote's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Owner Id",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "freightamount",
+            "schema_name": "FreightAmount",
+            "display_name": "Freight Amount",
+            "type": "Money",
+            "required_level": "None",
+            "description": "Type the cost of freight or shipping for the products included in the quote for use in calculating the Total Amount field."
+          },
+          {
+            "logical_name": "lastonholdtime",
+            "schema_name": "LastOnHoldTime",
+            "display_name": "Last On Hold Time",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Contains the date time stamp of the last on hold time.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "onholdtime",
+            "schema_name": "OnHoldTime",
+            "display_name": "On Hold Time (Minutes)",
+            "type": "Integer",
+            "required_level": "None",
+            "description": "Shows the duration in minutes for which the quote was on hold.",
+            "format": "None"
+          },
+          {
+            "logical_name": "paymenttermscode",
+            "schema_name": "PaymentTermsCode",
+            "display_name": "Payment Terms",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the payment terms to indicate when the customer needs to pay the total amount."
+          },
+          {
+            "logical_name": "quotenumber",
+            "schema_name": "QuoteNumber",
+            "display_name": "Quote ID",
+            "type": "String",
+            "required_level": "SystemRequired",
+            "description": "Shows the quote number for customer reference and searching capabilities. The number cannot be modified.",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "totalamount",
+            "schema_name": "TotalAmount",
+            "display_name": "Total amount",
+            "type": "Money",
+            "required_level": "None",
+            "description": "Shows the total amount due, calculated as the sum of the products, discounts, freight, and taxes for the quote."
+          },
+          {
+            "logical_name": "totalamountlessfreight",
+            "schema_name": "TotalAmountLessFreight",
+            "display_name": "Total Pre-Freight Amount",
+            "type": "Money",
+            "required_level": "None",
+            "description": "Shows the total product amount for the quote, minus any discounts. This value is added to freight and tax amounts in the calculation for the total amount due for the quote."
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "product",
+      "scenarios_served": [
+        9
+      ],
+      "table": {
+        "logical_name": "product",
+        "schema_name": "Product",
+        "display_name": "Product",
+        "description": "Information about products and their pricing information.",
+        "primary_id_attribute": "productid",
+        "primary_name_attribute": "name",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "productid",
+            "schema_name": "ProductId",
+            "display_name": "Product",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the product."
+          },
+          {
+            "logical_name": "name",
+            "schema_name": "Name",
+            "display_name": "Name",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Name of the product.",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Status of the product."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Reason for the status of the product."
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "validfromdate",
+            "schema_name": "ValidFromDate",
+            "display_name": "Valid From",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date from which this product is valid.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "validtodate",
+            "schema_name": "ValidToDate",
+            "display_name": "Valid To",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date to which this product is valid.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "parentproductid",
+            "schema_name": "ParentProductId",
+            "display_name": "Parent",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Specifies the parent product family hierarchy.",
+            "lookup_targets": [
+              "product"
+            ]
+          },
+          {
+            "logical_name": "subjectid",
+            "schema_name": "SubjectId",
+            "display_name": "Subject",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Select a category for the product.",
+            "lookup_targets": [
+              "subject"
+            ]
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who created the product.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "modifiedby",
+            "schema_name": "ModifiedBy",
+            "display_name": "Modified By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who last modified the product.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "transactioncurrencyid",
+            "schema_name": "TransactionCurrencyId",
+            "display_name": "Currency",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the currency associated with the product.",
+            "lookup_targets": [
+              "transactioncurrency"
+            ]
+          },
+          {
+            "logical_name": "msdyn_alsoknownas",
+            "schema_name": "msdyn_AlsoKnownAs",
+            "display_name": "Also Known As",
+            "type": "Memo",
+            "required_level": "None",
+            "description": "Alternate name/description for product",
+            "max_length": 2000,
+            "format": "Text"
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "price_list",
+      "scenarios_served": [
+        9
+      ],
+      "table": {
+        "logical_name": "pricelevel",
+        "schema_name": "PriceLevel",
+        "display_name": "Price List",
+        "description": "Entity that defines pricing levels.",
+        "primary_id_attribute": "pricelevelid",
+        "primary_name_attribute": "name",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "pricelevelid",
+            "schema_name": "PriceLevelId",
+            "display_name": "Price List",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the price list."
+          },
+          {
+            "logical_name": "name",
+            "schema_name": "Name",
+            "display_name": "Name",
+            "type": "String",
+            "required_level": "SystemRequired",
+            "description": "Name of the price list.",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status ",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Status of the price list."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Reason for the status of the price list."
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who created the price list.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "modifiedby",
+            "schema_name": "ModifiedBy",
+            "display_name": "Modified By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who last modified the price list.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "transactioncurrencyid",
+            "schema_name": "TransactionCurrencyId",
+            "display_name": "Currency",
+            "type": "Lookup",
+            "required_level": "ApplicationRequired",
+            "description": "Unique identifier of the currency associated with the price level.",
+            "lookup_targets": [
+              "transactioncurrency"
+            ]
+          },
+          {
+            "logical_name": "createdbyname",
+            "schema_name": "CreatedByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "createdonbehalfbyname",
+            "schema_name": "CreatedOnBehalfByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "description",
+            "schema_name": "Description",
+            "display_name": "Description",
+            "type": "Memo",
+            "required_level": "None",
+            "description": "Description of the price list.",
+            "max_length": 2000,
+            "format": "Text"
+          },
+          {
+            "logical_name": "modifiedbyname",
+            "schema_name": "ModifiedByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "modifiedonbehalfbyname",
+            "schema_name": "ModifiedOnBehalfByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "max_length": 100,
+            "format": "Text"
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "email",
+      "scenarios_served": [
+        2,
+        3,
+        4,
+        8,
+        10
+      ],
+      "table": {
+        "logical_name": "email",
+        "schema_name": "Email",
+        "display_name": "Email",
+        "description": "Activity that is delivered using email protocols.",
+        "primary_id_attribute": "activityid",
+        "primary_name_attribute": "subject",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "activityid",
+            "schema_name": "ActivityId",
+            "display_name": "Email Message",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the email activity."
+          },
+          {
+            "logical_name": "subject",
+            "schema_name": "Subject",
+            "display_name": "Subject",
+            "type": "String",
+            "required_level": "None",
+            "description": "Type a short description about the objective or primary topic of the email.",
+            "max_length": 800,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Activity Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the email is open, completed, or canceled. Completed and canceled email is read-only and can't be edited."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Select the email's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Enter the user or team who is assigned to manage the record. This field is updated every time the record is assigned to a different user.",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was created. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was last updated. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "actualend",
+            "schema_name": "ActualEnd",
+            "display_name": "Actual End",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Enter the actual end date and time of the email. By default, it displays the date and time when the activity was completed or canceled, but can be edited to capture the actual time to create and send the email.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "actualstart",
+            "schema_name": "ActualStart",
+            "display_name": "Actual Start",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Enter the actual start date and time for the email. By default, it displays the date and time when the activity was created, but can be edited to capture the actual time to create and send the email.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "deliveryprioritycode",
+            "schema_name": "DeliveryPriorityCode",
+            "display_name": "Delivery Priority",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the priority of delivery of the email to the email server."
+          },
+          {
+            "logical_name": "directioncode",
+            "schema_name": "DirectionCode",
+            "display_name": "Direction",
+            "type": "Boolean",
+            "required_level": "None",
+            "description": "Select the direction of the email as incoming or outbound."
+          },
+          {
+            "logical_name": "lastonholdtime",
+            "schema_name": "LastOnHoldTime",
+            "display_name": "Last On Hold Time",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Contains the date and time stamp of the last on hold time.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "onholdtime",
+            "schema_name": "OnHoldTime",
+            "display_name": "On Hold Time (Minutes)",
+            "type": "Integer",
+            "required_level": "None",
+            "description": "Shows how long, in minutes, that the record was on hold.",
+            "format": "None"
+          },
+          {
+            "logical_name": "prioritycode",
+            "schema_name": "PriorityCode",
+            "display_name": "Priority",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the priority so that preferred customers or critical issues are handled quickly."
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "task",
+      "scenarios_served": [
+        3,
+        6,
+        8,
+        10
+      ],
+      "table": {
+        "logical_name": "task",
+        "schema_name": "Task",
+        "display_name": "Task",
+        "description": "Generic activity representing work needed to be done.",
+        "primary_id_attribute": "activityid",
+        "primary_name_attribute": "subject",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "activityid",
+            "schema_name": "ActivityId",
+            "display_name": "Task",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the task."
+          },
+          {
+            "logical_name": "subject",
+            "schema_name": "Subject",
+            "display_name": "Subject",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Type a short description about the objective or primary topic of the task.",
+            "max_length": 200,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Activity Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the task is open, completed, or canceled. Completed and canceled tasks are read-only and can't be edited."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Select the task's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Enter the user or team who is assigned to manage the record. This field is updated every time the record is assigned to a different user.",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was created. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was last updated. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "actualend",
+            "schema_name": "ActualEnd",
+            "display_name": "Actual End",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Enter the actual end date and time of the task. By default, it displays when the activity was completed or canceled.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "actualstart",
+            "schema_name": "ActualStart",
+            "display_name": "Actual Start",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Enter the actual start date and time for the task. By default, it displays when the task was created.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "lastonholdtime",
+            "schema_name": "LastOnHoldTime",
+            "display_name": "Last On Hold Time",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Contains the date and time stamp of the last on hold time.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "onholdtime",
+            "schema_name": "OnHoldTime",
+            "display_name": "On Hold Time (Minutes)",
+            "type": "Integer",
+            "required_level": "None",
+            "description": "Shows how long, in minutes, that the record was on hold.",
+            "format": "None"
+          },
+          {
+            "logical_name": "prioritycode",
+            "schema_name": "PriorityCode",
+            "display_name": "Priority",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the priority so that preferred customers or critical issues are handled quickly."
+          },
+          {
+            "logical_name": "regardingobjectid",
+            "schema_name": "RegardingObjectId",
+            "display_name": "Regarding",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Choose the record that the task relates to.",
+            "lookup_targets": [
+              "account",
+              "adx_invitation",
+              "bookableresourcebooking",
+              "bookableresourcebookingheader",
+              "bulkoperation",
+              "campaign",
+              "campaignactivity",
+              "contact",
+              "contract",
+              "entitlement",
+              "entitlementtemplate",
+              "incident",
+              "invoice",
+              "knowledgearticle",
+              "knowledgebaserecord",
+              "lead",
+              "msdyn_customerasset",
+              "msdyn_playbookinstance",
+              "msdyn_postalbum",
+              "msdyn_salessuggestion",
+              "msdyn_swarm",
+              "mspp_adplacement",
+              "mspp_pollplacement",
+              "mspp_publishingstatetransitionrule",
+              "mspp_redirect",
+              "mspp_shortcut",
+              "mspp_website",
+              "opportunity",
+              "quote",
+              "salesorder",
+              "site"
+            ]
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Shows who created the record.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "case_or_dispute",
+      "scenarios_served": [
+        3,
+        6,
+        8,
+        10
+      ],
+      "table": {
+        "logical_name": "incident",
+        "schema_name": "Incident",
+        "display_name": "Case",
+        "description": "Service request case associated with a contract.",
+        "primary_id_attribute": "incidentid",
+        "primary_name_attribute": "title",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "incidentid",
+            "schema_name": "IncidentId",
+            "display_name": "Case",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the case."
+          },
+          {
+            "logical_name": "title",
+            "schema_name": "Title",
+            "display_name": "Case Title",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Type a subject or descriptive name, such as the request, issue, or company name, to identify the case in Microsoft Dynamics 365 views.",
+            "max_length": 200,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the case is active, resolved, or canceled. Resolved and canceled cases are read-only and can't be edited unless they are reactivated."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Select the case's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Owner Id",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "lastonholdtime",
+            "schema_name": "LastOnHoldTime",
+            "display_name": "Last On Hold Time",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Contains the date time stamp of the last on hold time.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "onholdtime",
+            "schema_name": "OnHoldTime",
+            "display_name": "On Hold Time (Minutes)",
+            "type": "Integer",
+            "required_level": "None",
+            "description": "Shows the duration in minutes for which the case was on hold.",
+            "format": "None"
+          },
+          {
+            "logical_name": "prioritycode",
+            "schema_name": "PriorityCode",
+            "display_name": "Priority",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the priority so that preferred customers or critical issues are handled quickly."
+          },
+          {
+            "logical_name": "ticketnumber",
+            "schema_name": "TicketNumber",
+            "display_name": "Case Number",
+            "type": "String",
+            "required_level": "None",
+            "description": "Shows the case number for customer reference and searching capabilities. This cannot be modified.",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "accountid",
+            "schema_name": "AccountId",
+            "display_name": "Account",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the account with which the case is associated.",
+            "lookup_targets": [
+              "account"
+            ]
+          },
+          {
+            "logical_name": "contactid",
+            "schema_name": "ContactId",
+            "display_name": "Contact",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the contact associated with the case.",
+            "lookup_targets": [
+              "contact"
+            ]
+          },
+          {
+            "logical_name": "customerid",
+            "schema_name": "CustomerId",
+            "display_name": "Customer",
+            "type": "Customer",
+            "required_level": "SystemRequired",
+            "description": "Select the customer account or contact to provide a quick link to additional customer details, such as account information, activities, and opportunities.",
+            "lookup_targets": [
+              "account",
+              "contact"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "phone_call",
+      "scenarios_served": [
+        3,
+        8,
+        10
+      ],
+      "table": {
+        "logical_name": "phonecall",
+        "schema_name": "PhoneCall",
+        "display_name": "Phone Call",
+        "description": "Activity to track a telephone call.",
+        "primary_id_attribute": "activityid",
+        "primary_name_attribute": "subject",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "activityid",
+            "schema_name": "ActivityId",
+            "display_name": "Phone Call",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the phone call activity."
+          },
+          {
+            "logical_name": "subject",
+            "schema_name": "Subject",
+            "display_name": "Subject",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Type a short description about the objective or primary topic of the phone call.",
+            "max_length": 200,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Activity Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the phone call is open, completed, or canceled. Completed and canceled phone calls are read-only and can't be edited."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Select the phone call's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Enter the user or team who is assigned to manage the record. This field is updated every time the record is assigned to a different user.",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was created. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was last updated. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "actualend",
+            "schema_name": "ActualEnd",
+            "display_name": "Actual End",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Enter the actual end date and time of the phone call. By default, it displays the date and time when the activity was completed or canceled, but can be edited to capture the actual duration of the phone call.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "actualstart",
+            "schema_name": "ActualStart",
+            "display_name": "Actual Start",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Enter the actual start date and time for the phone call. By default, it displays the date and time when the activity was created, but can be edited to capture the actual duration of the phone call.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "directioncode",
+            "schema_name": "DirectionCode",
+            "display_name": "Direction",
+            "type": "Boolean",
+            "required_level": "None",
+            "description": "Select the direction of the phone call as incoming or outbound."
+          },
+          {
+            "logical_name": "lastonholdtime",
+            "schema_name": "LastOnHoldTime",
+            "display_name": "Last On Hold Time",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Contains the date and time stamp of the last on hold time.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "onholdtime",
+            "schema_name": "OnHoldTime",
+            "display_name": "On Hold Time (Minutes)",
+            "type": "Integer",
+            "required_level": "None",
+            "description": "Shows how long, in minutes, that the record was on hold.",
+            "format": "None"
+          },
+          {
+            "logical_name": "prioritycode",
+            "schema_name": "PriorityCode",
+            "display_name": "Priority",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the priority so that preferred customers or critical issues are handled quickly."
+          },
+          {
+            "logical_name": "regardingobjectid",
+            "schema_name": "RegardingObjectId",
+            "display_name": "Regarding",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Choose the record that the phone call relates to.",
+            "lookup_targets": [
+              "account",
+              "adx_invitation",
+              "bookableresourcebooking",
+              "bookableresourcebookingheader",
+              "bulkoperation",
+              "campaign",
+              "campaignactivity",
+              "contact",
+              "contract",
+              "entitlement",
+              "entitlementtemplate",
+              "incident",
+              "invoice",
+              "knowledgearticle",
+              "knowledgebaserecord",
+              "lead",
+              "msdyn_customerasset",
+              "msdyn_playbookinstance",
+              "msdyn_postalbum",
+              "msdyn_salessuggestion",
+              "msdyn_swarm",
+              "mspp_adplacement",
+              "mspp_pollplacement",
+              "mspp_publishingstatetransitionrule",
+              "mspp_redirect",
+              "mspp_shortcut",
+              "mspp_website",
+              "opportunity",
+              "quote",
+              "salesorder",
+              "site"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "appointment",
+      "scenarios_served": [
+        3,
+        8
+      ],
+      "table": {
+        "logical_name": "appointment",
+        "schema_name": "Appointment",
+        "display_name": "Appointment",
+        "description": "Commitment representing a time interval with start/end times and duration.",
+        "primary_id_attribute": "activityid",
+        "primary_name_attribute": "subject",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "activityid",
+            "schema_name": "ActivityId",
+            "display_name": "Appointment",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the appointment."
+          },
+          {
+            "logical_name": "subject",
+            "schema_name": "Subject",
+            "display_name": "Subject",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Type a short description about the objective or primary topic of the appointment.",
+            "max_length": 200,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the appointment is open, completed, or canceled. Completed and canceled appointments are read-only and can't be edited."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Select the appointment's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Enter the user or team who is assigned to manage the record. This field is updated every time the record is assigned to a different user.",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was created. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was last updated. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "actualend",
+            "schema_name": "ActualEnd",
+            "display_name": "Actual End",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Enter the actual end date and time of the appointment. By default, it displays the date and time when the activity was completed or canceled, but can be edited to capture the actual duration of the appointment.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "actualstart",
+            "schema_name": "ActualStart",
+            "display_name": "Actual Start",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Enter the actual start date and time for the appointment. By default, it displays the date and time when the activity was created, but can be edited to capture the actual duration of the appointment.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "lastonholdtime",
+            "schema_name": "LastOnHoldTime",
+            "display_name": "Last On Hold Time",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Contains the date and time stamp of the last on hold time.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "onholdtime",
+            "schema_name": "OnHoldTime",
+            "display_name": "On Hold Time (Minutes)",
+            "type": "Integer",
+            "required_level": "None",
+            "description": "Shows how long, in minutes, that the record was on hold.",
+            "format": "None"
+          },
+          {
+            "logical_name": "prioritycode",
+            "schema_name": "PriorityCode",
+            "display_name": "Priority",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the priority so that preferred customers or critical issues are handled quickly."
+          },
+          {
+            "logical_name": "regardingobjectid",
+            "schema_name": "RegardingObjectId",
+            "display_name": "Regarding",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Choose the record that the appointment relates to.",
+            "lookup_targets": [
+              "account",
+              "adx_invitation",
+              "bookableresourcebooking",
+              "bookableresourcebookingheader",
+              "bulkoperation",
+              "campaign",
+              "campaignactivity",
+              "contact",
+              "contract",
+              "entitlement",
+              "entitlementtemplate",
+              "incident",
+              "invoice",
+              "knowledgearticle",
+              "knowledgebaserecord",
+              "lead",
+              "msdyn_customerasset",
+              "msdyn_playbookinstance",
+              "msdyn_postalbum",
+              "msdyn_salessuggestion",
+              "msdyn_swarm",
+              "mspp_adplacement",
+              "mspp_pollplacement",
+              "mspp_publishingstatetransitionrule",
+              "mspp_redirect",
+              "mspp_shortcut",
+              "mspp_website",
+              "opportunity",
+              "quote",
+              "salesorder",
+              "site"
+            ]
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Shows who created the record.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "letter",
+      "scenarios_served": [
+        2,
+        4,
+        10
+      ],
+      "table": {
+        "logical_name": "letter",
+        "schema_name": "Letter",
+        "display_name": "Letter",
+        "description": "Activity that tracks the delivery of a letter. The activity can contain the electronic copy of the letter.",
+        "primary_id_attribute": "activityid",
+        "primary_name_attribute": "subject",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "activityid",
+            "schema_name": "ActivityId",
+            "display_name": "Letter",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the letter activity."
+          },
+          {
+            "logical_name": "subject",
+            "schema_name": "Subject",
+            "display_name": "Subject",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Type a short description about the objective or primary topic of the letter.",
+            "max_length": 200,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Activity Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the letter is open, completed, or canceled. Completed and canceled letters are read-only and can't be edited."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Select the letter's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Enter the user or team who is assigned to manage the record. This field is updated every time the record is assigned to a different user.",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was created. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was last updated. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "actualend",
+            "schema_name": "ActualEnd",
+            "display_name": "Actual End",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Enter the actual end date and time of the letter. By default, it displays the date and time when the activity was completed or canceled, but can be edited to capture the actual time to create and send the letter.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "actualstart",
+            "schema_name": "ActualStart",
+            "display_name": "Actual Start",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Enter the actual start date and time for the letter. By default, it displays the date and time when the activity was created, but can be edited to capture the actual time to create and send the letter.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "directioncode",
+            "schema_name": "DirectionCode",
+            "display_name": "Direction",
+            "type": "Boolean",
+            "required_level": "None",
+            "description": "Select the direction of the letter as incoming or outbound."
+          },
+          {
+            "logical_name": "lastonholdtime",
+            "schema_name": "LastOnHoldTime",
+            "display_name": "Last On Hold Time",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Contains the date and time stamp of the last on hold time.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "onholdtime",
+            "schema_name": "OnHoldTime",
+            "display_name": "On Hold Time (Minutes)",
+            "type": "Integer",
+            "required_level": "None",
+            "description": "Shows how long, in minutes, that the record was on hold.",
+            "format": "None"
+          },
+          {
+            "logical_name": "prioritycode",
+            "schema_name": "PriorityCode",
+            "display_name": "Priority",
+            "type": "Picklist",
+            "required_level": "None",
+            "description": "Select the priority so that preferred customers or critical issues are handled quickly."
+          },
+          {
+            "logical_name": "regardingobjectid",
+            "schema_name": "RegardingObjectId",
+            "display_name": "Regarding",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Choose the record that the letter relates to.",
+            "lookup_targets": [
+              "account",
+              "adx_invitation",
+              "bookableresourcebooking",
+              "bookableresourcebookingheader",
+              "bulkoperation",
+              "campaign",
+              "campaignactivity",
+              "contact",
+              "contract",
+              "entitlement",
+              "entitlementtemplate",
+              "incident",
+              "invoice",
+              "knowledgearticle",
+              "knowledgebaserecord",
+              "lead",
+              "msdyn_customerasset",
+              "msdyn_playbookinstance",
+              "msdyn_postalbum",
+              "msdyn_salessuggestion",
+              "msdyn_swarm",
+              "mspp_adplacement",
+              "mspp_pollplacement",
+              "mspp_publishingstatetransitionrule",
+              "mspp_redirect",
+              "mspp_shortcut",
+              "mspp_website",
+              "opportunity",
+              "quote",
+              "salesorder",
+              "site"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "note_or_attachment",
+      "scenarios_served": [
+        3,
+        6,
+        10
+      ],
+      "table": {
+        "logical_name": "annotation",
+        "schema_name": "Annotation",
+        "display_name": "Note",
+        "description": "Note that is attached to one or more objects, including other notes.",
+        "primary_id_attribute": "annotationid",
+        "primary_name_attribute": "subject",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "annotationid",
+            "schema_name": "AnnotationId",
+            "display_name": "Note",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the note."
+          },
+          {
+            "logical_name": "subject",
+            "schema_name": "Subject",
+            "display_name": "Title",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Subject associated with the note.",
+            "max_length": 500,
+            "format": "Text"
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the user or team who owns the note.",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the note was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the note was last modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who created the note.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "modifiedby",
+            "schema_name": "ModifiedBy",
+            "display_name": "Modified By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who last modified the note.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "createdbyname",
+            "schema_name": "CreatedByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "createdonbehalfbyname",
+            "schema_name": "CreatedOnBehalfByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "dummyfilename",
+            "schema_name": "DummyFileName",
+            "display_name": "File Name(deprecated)",
+            "type": "String",
+            "required_level": "None",
+            "description": "Dummy attribute associated with the note attachment",
+            "max_length": 500,
+            "format": "Text"
+          },
+          {
+            "logical_name": "filename",
+            "schema_name": "FileName",
+            "display_name": "File Name",
+            "type": "String",
+            "required_level": "None",
+            "description": "File name of the note.",
+            "max_length": 255,
+            "format": "Text"
+          },
+          {
+            "logical_name": "isautonomouslycreatedname",
+            "schema_name": "isautonomouslycreatedName",
+            "display_name": null,
+            "type": "Virtual",
+            "required_level": "None"
+          },
+          {
+            "logical_name": "iscompressedname",
+            "schema_name": "iscompressedName",
+            "display_name": null,
+            "type": "Virtual",
+            "required_level": "None"
+          },
+          {
+            "logical_name": "isdocumentname",
+            "schema_name": "IsDocumentName",
+            "display_name": null,
+            "type": "Virtual",
+            "required_level": "None"
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "contract",
+      "scenarios_served": [
+        9
+      ],
+      "table": {
+        "logical_name": "contract",
+        "schema_name": "Contract",
+        "display_name": "Contract",
+        "description": "Agreement to provide customer service during a specified amount of time or number of cases.",
+        "primary_id_attribute": "contractid",
+        "primary_name_attribute": "title",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "contractid",
+            "schema_name": "ContractId",
+            "display_name": "Contract",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the contract."
+          },
+          {
+            "logical_name": "title",
+            "schema_name": "Title",
+            "display_name": "Contract Name",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Type a title or name for the contract that indicates the purpose of the contract.",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the contract is in draft, invoiced, active, on hold, canceled, or expired. You can edit only the contracts that are in draft status."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Select the contract's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Owner Id",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "activeon",
+            "schema_name": "ActiveOn",
+            "display_name": "Contract Start Date",
+            "type": "DateTime",
+            "required_level": "SystemRequired",
+            "description": "Enter the date when the contract becomes active.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "contractnumber",
+            "schema_name": "ContractNumber",
+            "display_name": "Contract ID",
+            "type": "String",
+            "required_level": "None",
+            "description": "Shows the number for the contract for customer reference and searching capabilities. You cannot modify this number.",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "totaldiscount",
+            "schema_name": "TotalDiscount",
+            "display_name": "Total Discount",
+            "type": "Money",
+            "required_level": "None",
+            "description": "Shows the total discount applied to the contract's service charges, calculated as the sum of values in the Discount fields for each existing contract line related to the contract."
+          },
+          {
+            "logical_name": "accountid",
+            "schema_name": "AccountId",
+            "display_name": "Account",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the account with which the contract is associated.",
+            "lookup_targets": [
+              "account"
+            ]
+          },
+          {
+            "logical_name": "billingaccountid",
+            "schema_name": "BillingAccountId",
+            "display_name": "Billing Account",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the account to which the contract is to be billed.",
+            "lookup_targets": [
+              "account"
+            ]
+          },
+          {
+            "logical_name": "billingcontactid",
+            "schema_name": "BillingContactId",
+            "display_name": "Billing Contact",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the contact to whom the contract is to be billed.",
+            "lookup_targets": [
+              "contact"
+            ]
+          },
+          {
+            "logical_name": "billingcustomerid",
+            "schema_name": "BillingCustomerId",
+            "display_name": "Bill To Customer",
+            "type": "Customer",
+            "required_level": "SystemRequired",
+            "description": "Select the customer account or contact to which the contract should be billed to provide a quick link to address and other customer details.",
+            "lookup_targets": [
+              "account",
+              "contact"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "contract_line",
+      "scenarios_served": [
+        9
+      ],
+      "table": {
+        "logical_name": "contractdetail",
+        "schema_name": "ContractDetail",
+        "display_name": "Contract Line",
+        "description": "Line item in a contract that specifies the type of service a customer is entitled to.",
+        "primary_id_attribute": "contractdetailid",
+        "primary_name_attribute": "title",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "contractdetailid",
+            "schema_name": "ContractDetailId",
+            "display_name": "Contract Line",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the contract line."
+          },
+          {
+            "logical_name": "title",
+            "schema_name": "Title",
+            "display_name": "Title",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Type a title or name that describes the contract line.",
+            "max_length": 500,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the contract line is existing, renewed, canceled, or expired. You can't edit a contract line after it is saved, regardless of the status."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Select the contract line's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "ApplicationRequired",
+            "description": "Owner Id",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the record was modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "activeon",
+            "schema_name": "ActiveOn",
+            "display_name": "Start Date",
+            "type": "DateTime",
+            "required_level": "SystemRequired",
+            "description": "Enter the date when the contract line becomes active.",
+            "format": "DateOnly"
+          },
+          {
+            "logical_name": "accountid",
+            "schema_name": "AccountId",
+            "display_name": "Account",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the account with which the contract is associated.",
+            "lookup_targets": [
+              "account"
+            ]
+          },
+          {
+            "logical_name": "contactid",
+            "schema_name": "ContactId",
+            "display_name": "Contact",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier for the contact associated with the contract line.",
+            "lookup_targets": [
+              "contact"
+            ]
+          },
+          {
+            "logical_name": "customerid",
+            "schema_name": "CustomerId",
+            "display_name": "Customer",
+            "type": "Customer",
+            "required_level": "SystemRequired",
+            "description": "Select the customer account or contact to provide a quick link to additional customer details, such as address, phone number, activities, and orders.",
+            "lookup_targets": [
+              "account",
+              "contact"
+            ]
+          },
+          {
+            "logical_name": "customeridtype",
+            "schema_name": "CustomerIdType",
+            "display_name": "Customer Type",
+            "type": "EntityName",
+            "required_level": "ApplicationRequired"
+          },
+          {
+            "logical_name": "productid",
+            "schema_name": "ProductId",
+            "display_name": "Product",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Choose the product that is eligible for services on the contract line.",
+            "lookup_targets": [
+              "product"
+            ]
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Shows who created the record.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "user",
+      "scenarios_served": [
+        2,
+        5,
+        6,
+        8,
+        10
+      ],
+      "table": {
+        "logical_name": "systemuser",
+        "schema_name": "SystemUser",
+        "display_name": "User",
+        "description": "Person with access to the Microsoft CRM system and who owns objects in the Microsoft CRM database.",
+        "primary_id_attribute": "systemuserid",
+        "primary_name_attribute": "fullname",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "systemuserid",
+            "schema_name": "SystemUserId",
+            "display_name": "User",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier for the user."
+          },
+          {
+            "logical_name": "fullname",
+            "schema_name": "FullName",
+            "display_name": "Full Name",
+            "type": "String",
+            "required_level": "None",
+            "description": "Full name of the user.",
+            "max_length": 200,
+            "format": "Text"
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the user was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the user was last modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "address1_telephone1",
+            "schema_name": "Address1_Telephone1",
+            "display_name": "Main Phone",
+            "type": "String",
+            "required_level": "None",
+            "description": "First telephone number associated with address 1.",
+            "max_length": 64,
+            "format": "Text"
+          },
+          {
+            "logical_name": "firstname",
+            "schema_name": "FirstName",
+            "display_name": "First Name",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "First name of the user.",
+            "max_length": 256,
+            "format": "Text"
+          },
+          {
+            "logical_name": "lastname",
+            "schema_name": "LastName",
+            "display_name": "Last Name",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Last name of the user.",
+            "max_length": 256,
+            "format": "Text"
+          },
+          {
+            "logical_name": "mobilephone",
+            "schema_name": "MobilePhone",
+            "display_name": "Mobile Phone",
+            "type": "String",
+            "required_level": "None",
+            "description": "Mobile phone number for the user.",
+            "max_length": 64,
+            "format": "Text"
+          },
+          {
+            "logical_name": "yomifirstname",
+            "schema_name": "YomiFirstName",
+            "display_name": "Yomi First Name",
+            "type": "String",
+            "required_level": "None",
+            "description": "Pronunciation of the first name of the user, written in phonetic hiragana or katakana characters.",
+            "max_length": 64,
+            "format": "PhoneticGuide"
+          },
+          {
+            "logical_name": "yomifullname",
+            "schema_name": "YomiFullName",
+            "display_name": "Yomi Full Name",
+            "type": "String",
+            "required_level": "None",
+            "description": "Pronunciation of the full name of the user, written in phonetic hiragana or katakana characters.",
+            "max_length": 200,
+            "format": "PhoneticGuide"
+          },
+          {
+            "logical_name": "yomilastname",
+            "schema_name": "YomiLastName",
+            "display_name": "Yomi Last Name",
+            "type": "String",
+            "required_level": "None",
+            "description": "Pronunciation of the last name of the user, written in phonetic hiragana or katakana characters.",
+            "max_length": 64,
+            "format": "PhoneticGuide"
+          },
+          {
+            "logical_name": "address1_city",
+            "schema_name": "Address1_City",
+            "display_name": "City",
+            "type": "String",
+            "required_level": "None",
+            "description": "City name for address 1.",
+            "max_length": 128,
+            "format": "Text"
+          },
+          {
+            "logical_name": "address1_country",
+            "schema_name": "Address1_Country",
+            "display_name": "Country/Region",
+            "type": "String",
+            "required_level": "None",
+            "description": "Country/region name in address 1.",
+            "max_length": 128,
+            "format": "Text"
+          },
+          {
+            "logical_name": "address1_line1",
+            "schema_name": "Address1_Line1",
+            "display_name": "Street 1",
+            "type": "String",
+            "required_level": "None",
+            "description": "First line for entering address 1 information.",
+            "max_length": 1024,
+            "format": "Text"
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "team",
+      "scenarios_served": [
+        5,
+        6,
+        8,
+        10
+      ],
+      "table": {
+        "logical_name": "team",
+        "schema_name": "Team",
+        "display_name": "Team",
+        "description": "Collection of system users that routinely collaborate. Teams can be used to simplify record sharing and provide team members with common access to organization data when team members belong to different Business Units.",
+        "primary_id_attribute": "teamid",
+        "primary_name_attribute": "name",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "teamid",
+            "schema_name": "TeamId",
+            "display_name": "Team",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier for the team."
+          },
+          {
+            "logical_name": "name",
+            "schema_name": "Name",
+            "display_name": "Team Name",
+            "type": "String",
+            "required_level": "SystemRequired",
+            "description": "Name of the team.",
+            "max_length": 160,
+            "format": "Text"
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the team was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the team was last modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "regardingobjectid",
+            "schema_name": "RegardingObjectId",
+            "display_name": "Regarding Object Id",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Choose the record that the team relates to.",
+            "lookup_targets": [
+              "knowledgearticle",
+              "opportunity"
+            ]
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who created the team.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "modifiedby",
+            "schema_name": "ModifiedBy",
+            "display_name": "Modified By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who last modified the team.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "transactioncurrencyid",
+            "schema_name": "TransactionCurrencyId",
+            "display_name": "Currency",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the currency associated with the team.",
+            "lookup_targets": [
+              "transactioncurrency"
+            ]
+          },
+          {
+            "logical_name": "membershiptypename",
+            "schema_name": "membershiptypeName",
+            "display_name": null,
+            "type": "Virtual",
+            "required_level": "None"
+          },
+          {
+            "logical_name": "createdbyname",
+            "schema_name": "CreatedByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "createdonbehalfbyname",
+            "schema_name": "CreatedOnBehalfByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "description",
+            "schema_name": "Description",
+            "display_name": "Description",
+            "type": "Memo",
+            "required_level": "None",
+            "description": "Description of the team.",
+            "max_length": 2000,
+            "format": "TextArea"
+          },
+          {
+            "logical_name": "emailaddress",
+            "schema_name": "EMailAddress",
+            "display_name": "Email",
+            "type": "String",
+            "required_level": "None",
+            "description": "Email address for the team.",
+            "max_length": 100,
+            "format": "Email"
+          },
+          {
+            "logical_name": "isdefaultname",
+            "schema_name": "IsDefaultName",
+            "display_name": null,
+            "type": "Virtual",
+            "required_level": "None"
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "business_unit",
+      "scenarios_served": [
+        7,
+        10
+      ],
+      "table": {
+        "logical_name": "businessunit",
+        "schema_name": "BusinessUnit",
+        "display_name": "Business Unit",
+        "description": "Business, division, or department in the Microsoft Dynamics 365 database.",
+        "primary_id_attribute": "businessunitid",
+        "primary_name_attribute": "name",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "businessunitid",
+            "schema_name": "BusinessUnitId",
+            "display_name": "Business Unit",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the business unit."
+          },
+          {
+            "logical_name": "name",
+            "schema_name": "Name",
+            "display_name": "Name",
+            "type": "String",
+            "required_level": "SystemRequired",
+            "description": "Name of the business unit.",
+            "max_length": 160,
+            "format": "Text"
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the business unit was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the business unit was last modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "creditlimit",
+            "schema_name": "CreditLimit",
+            "display_name": "Credit Limit",
+            "type": "Double",
+            "required_level": "None",
+            "description": "Credit limit for the business unit."
+          },
+          {
+            "logical_name": "address1_telephone1",
+            "schema_name": "Address1_Telephone1",
+            "display_name": "Main Phone",
+            "type": "String",
+            "required_level": "None",
+            "description": "First telephone number associated with address 1.",
+            "max_length": 50,
+            "format": "Text"
+          },
+          {
+            "logical_name": "address1_city",
+            "schema_name": "Address1_City",
+            "display_name": "Bill To City",
+            "type": "String",
+            "required_level": "None",
+            "description": "City name for address 1.",
+            "max_length": 80,
+            "format": "Text"
+          },
+          {
+            "logical_name": "address1_country",
+            "schema_name": "Address1_Country",
+            "display_name": "Bill To Country/Region",
+            "type": "String",
+            "required_level": "None",
+            "description": "Country/region name for address 1.",
+            "max_length": 80,
+            "format": "Text"
+          },
+          {
+            "logical_name": "address1_line1",
+            "schema_name": "Address1_Line1",
+            "display_name": "Bill To Street 1",
+            "type": "String",
+            "required_level": "None",
+            "description": "First line for entering address 1 information.",
+            "max_length": 250,
+            "format": "Text"
+          },
+          {
+            "logical_name": "address1_postalcode",
+            "schema_name": "Address1_PostalCode",
+            "display_name": "Bill To ZIP/Postal Code",
+            "type": "String",
+            "required_level": "None",
+            "description": "ZIP Code or postal code for address 1.",
+            "max_length": 20,
+            "format": "Text"
+          },
+          {
+            "logical_name": "address1_stateorprovince",
+            "schema_name": "Address1_StateOrProvince",
+            "display_name": "Bill To State/Province",
+            "type": "String",
+            "required_level": "None",
+            "description": "State or province for address 1.",
+            "max_length": 50,
+            "format": "Text"
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who created the business unit.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "modifiedby",
+            "schema_name": "ModifiedBy",
+            "display_name": "Modified By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who last modified the business unit.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "transactioncurrencyid",
+            "schema_name": "TransactionCurrencyId",
+            "display_name": "Currency",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the currency associated with the businessunit.",
+            "lookup_targets": [
+              "transactioncurrency"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "transaction_currency",
+      "scenarios_served": [
+        1,
+        4,
+        7
+      ],
+      "table": {
+        "logical_name": "transactioncurrency",
+        "schema_name": "TransactionCurrency",
+        "display_name": "Currency",
+        "description": "Currency in which a financial transaction is carried out.",
+        "primary_id_attribute": "transactioncurrencyid",
+        "primary_name_attribute": "currencyname",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "transactioncurrencyid",
+            "schema_name": "TransactionCurrencyId",
+            "display_name": "Transaction Currency",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the transaction currency."
+          },
+          {
+            "logical_name": "currencyname",
+            "schema_name": "CurrencyName",
+            "display_name": "Currency Name",
+            "type": "String",
+            "required_level": "SystemRequired",
+            "description": "Name of the transaction currency.",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Status of the transaction currency."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Reason for the status of the transaction currency."
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the transaction currency was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the transaction currency was last modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who created the transaction currency.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "modifiedby",
+            "schema_name": "ModifiedBy",
+            "display_name": "Modified By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who last modified the transaction currency.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "currencytypename",
+            "schema_name": "currencytypeName",
+            "display_name": null,
+            "type": "Virtual",
+            "required_level": "None"
+          },
+          {
+            "logical_name": "createdbyname",
+            "schema_name": "CreatedByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "createdonbehalfbyname",
+            "schema_name": "CreatedOnBehalfByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "currencyprecision",
+            "schema_name": "CurrencyPrecision",
+            "display_name": "Currency Precision",
+            "type": "Integer",
+            "required_level": "SystemRequired",
+            "description": "Number of decimal places that can be used for currency.",
+            "format": "None"
+          },
+          {
+            "logical_name": "currencysymbol",
+            "schema_name": "CurrencySymbol",
+            "display_name": "Currency Symbol",
+            "type": "String",
+            "required_level": "SystemRequired",
+            "description": "Symbol for the transaction currency.",
+            "max_length": 10,
+            "format": "Text"
+          },
+          {
+            "logical_name": "currencytype",
+            "schema_name": "CurrencyType",
+            "display_name": "Currency Type",
+            "type": "Picklist",
+            "required_level": "SystemRequired",
+            "description": "Currency type that can be used for new currency."
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "queue",
+      "scenarios_served": [
+        3
+      ],
+      "table": {
+        "logical_name": "queue",
+        "schema_name": "Queue",
+        "display_name": "Queue",
+        "description": "A list of records that require action, such as accounts, activities, and cases.",
+        "primary_id_attribute": "queueid",
+        "primary_name_attribute": "name",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "queueid",
+            "schema_name": "QueueId",
+            "display_name": "Queue",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the queue."
+          },
+          {
+            "logical_name": "name",
+            "schema_name": "Name",
+            "display_name": "Name",
+            "type": "String",
+            "required_level": "ApplicationRequired",
+            "description": "Name of the queue.",
+            "max_length": 200,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Status of the queue."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "SystemRequired",
+            "description": "Reason for the status of the queue."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the user or team who owns the queue.",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the queue was created.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Date and time when the queue was last modified.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "isfaxqueue",
+            "schema_name": "IsFaxQueue",
+            "display_name": "Fax Queue",
+            "type": "Boolean",
+            "required_level": "None",
+            "description": "Indication of whether a queue is the fax delivery queue."
+          },
+          {
+            "logical_name": "isfaxqueuename",
+            "schema_name": "IsFaxQueueName",
+            "display_name": null,
+            "type": "Virtual",
+            "required_level": "None"
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who created the queue record.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "modifiedby",
+            "schema_name": "ModifiedBy",
+            "display_name": "Modified By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the user who last modified the queue.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "transactioncurrencyid",
+            "schema_name": "TransactionCurrencyId",
+            "display_name": "Currency",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Unique identifier of the currency associated with the queue.",
+            "lookup_targets": [
+              "transactioncurrency"
+            ]
+          },
+          {
+            "logical_name": "incomingemaildeliverymethodname",
+            "schema_name": "IncomingEmailDeliveryMethodName",
+            "display_name": null,
+            "type": "Virtual",
+            "required_level": "None"
+          },
+          {
+            "logical_name": "outgoingemaildeliverymethodname",
+            "schema_name": "OutgoingEmailDeliveryMethodName",
+            "display_name": null,
+            "type": "Virtual",
+            "required_level": "None"
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "queue_item",
+      "scenarios_served": [
+        3
+      ],
+      "table": {
+        "logical_name": "queueitem",
+        "schema_name": "QueueItem",
+        "display_name": "Queue Item",
+        "description": "A specific item in a queue, such as a case record or an activity record.",
+        "primary_id_attribute": "queueitemid",
+        "primary_name_attribute": "title",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "queueitemid",
+            "schema_name": "QueueItemId",
+            "display_name": "Queue Item",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the queue item."
+          },
+          {
+            "logical_name": "title",
+            "schema_name": "Title",
+            "display_name": "Title",
+            "type": "String",
+            "required_level": "None",
+            "description": "Shows the title or name that describes the queue record. This value is copied from the record that was assigned to the queue.",
+            "max_length": 850,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the queue record is active or inactive. Inactive queue records are read-only and can't be edited unless they are reactivated."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "SystemRequired",
+            "description": "Select the item's status."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "ApplicationRequired",
+            "description": "Unique identifier of the user or team who owns the queue item.",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was created. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was last updated. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "sender",
+            "schema_name": "Sender",
+            "display_name": "From",
+            "type": "String",
+            "required_level": "None",
+            "description": "Sender who created the queue item.",
+            "max_length": 250,
+            "format": "Text"
+          },
+          {
+            "logical_name": "torecipients",
+            "schema_name": "ToRecipients",
+            "display_name": "To",
+            "type": "String",
+            "required_level": "None",
+            "description": "Recipients listed on the To line of the message for email queue items.",
+            "max_length": 500,
+            "format": "Text"
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Shows who created the record.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "modifiedby",
+            "schema_name": "ModifiedBy",
+            "display_name": "Modified By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Shows who last updated the record.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "transactioncurrencyid",
+            "schema_name": "TransactionCurrencyId",
+            "display_name": "Currency",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Choose the local currency for the record to make sure budgets are reported in the correct currency.",
+            "lookup_targets": [
+              "transactioncurrency"
+            ]
+          },
+          {
+            "logical_name": "createdbyname",
+            "schema_name": "CreatedByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "createdonbehalfbyname",
+            "schema_name": "CreatedOnBehalfByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "max_length": 100,
+            "format": "Text"
+          }
+        ]
+      }
+    },
+    {
+      "entity_concept": "connection",
+      "scenarios_served": [
+        8
+      ],
+      "table": {
+        "logical_name": "connection",
+        "schema_name": "Connection",
+        "display_name": "Connection",
+        "description": "Relationship between two entities.",
+        "primary_id_attribute": "connectionid",
+        "primary_name_attribute": "name",
+        "is_custom_entity": false,
+        "columns": [
+          {
+            "logical_name": "connectionid",
+            "schema_name": "ConnectionId",
+            "display_name": "Connection",
+            "type": "Uniqueidentifier",
+            "required_level": "SystemRequired",
+            "description": "Unique identifier of the connection."
+          },
+          {
+            "logical_name": "name",
+            "schema_name": "Name",
+            "display_name": "Connection Name",
+            "type": "String",
+            "required_level": "None",
+            "description": "Name of the connection.",
+            "max_length": 500,
+            "format": "Text"
+          },
+          {
+            "logical_name": "statecode",
+            "schema_name": "StateCode",
+            "display_name": "Status",
+            "type": "State",
+            "required_level": "SystemRequired",
+            "description": "Shows whether the connection is active or inactive. Inactive connections are read-only and can't be edited unless they are reactivated."
+          },
+          {
+            "logical_name": "statuscode",
+            "schema_name": "StatusCode",
+            "display_name": "Status Reason",
+            "type": "Status",
+            "required_level": "None",
+            "description": "Reason for the status of the connection."
+          },
+          {
+            "logical_name": "ownerid",
+            "schema_name": "OwnerId",
+            "display_name": "Owner",
+            "type": "Owner",
+            "required_level": "SystemRequired",
+            "description": "Enter the user or team who is assigned to manage the record. This field is updated every time the record is assigned to a different user.",
+            "lookup_targets": [
+              "systemuser",
+              "team"
+            ]
+          },
+          {
+            "logical_name": "createdon",
+            "schema_name": "CreatedOn",
+            "display_name": "Created On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was created. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "modifiedon",
+            "schema_name": "ModifiedOn",
+            "display_name": "Modified On",
+            "type": "DateTime",
+            "required_level": "None",
+            "description": "Shows the date and time when the record was last updated. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.",
+            "format": "DateAndTime"
+          },
+          {
+            "logical_name": "createdby",
+            "schema_name": "CreatedBy",
+            "display_name": "Created By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Shows who created the record.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "modifiedby",
+            "schema_name": "ModifiedBy",
+            "display_name": "Modified By",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Shows who last updated the record.",
+            "lookup_targets": [
+              "systemuser"
+            ]
+          },
+          {
+            "logical_name": "transactioncurrencyid",
+            "schema_name": "TransactionCurrencyId",
+            "display_name": "Currency",
+            "type": "Lookup",
+            "required_level": "None",
+            "description": "Choose the local currency for the record to make sure budgets are reported in the correct currency.",
+            "lookup_targets": [
+              "transactioncurrency"
+            ]
+          },
+          {
+            "logical_name": "description",
+            "schema_name": "Description",
+            "display_name": "Description",
+            "type": "Memo",
+            "required_level": "None",
+            "description": "Type additional information to describe the connection, such as the length or quality of the relationship.",
+            "max_length": 2000,
+            "format": "TextArea"
+          },
+          {
+            "logical_name": "createdbyname",
+            "schema_name": "CreatedByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "description": "Name of the user who created the connection.",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "createdonbehalfbyname",
+            "schema_name": "CreatedOnBehalfByName",
+            "display_name": null,
+            "type": "String",
+            "required_level": "None",
+            "max_length": 100,
+            "format": "Text"
+          },
+          {
+            "logical_name": "ismastername",
+            "schema_name": "IsMasterName",
+            "display_name": null,
+            "type": "Virtual",
+            "required_level": "SystemRequired",
+            "description": "Indicates if it is the master record."
+          }
+        ]
+      }
+    }
+  ],
+  "custom_tables_needed": [
+    {
+      "proposed_logical_name": "mueller_paymentevent",
+      "purpose": "Records every payment receipt with date, amount, method, and the invoice it settles. Dataverse has no first-class payment table.",
+      "scenarios_served": [
+        1,
+        4,
+        5,
+        7
+      ],
+      "proposed_columns": [
+        {
+          "logical_name": "mueller_paymenteventid",
+          "type": "Uniqueidentifier",
+          "purpose": "Primary key"
+        },
+        {
+          "logical_name": "mueller_name",
+          "type": "String",
+          "purpose": "Display name (auto-generated payment reference)"
+        },
+        {
+          "logical_name": "mueller_invoiceid",
+          "type": "Lookup",
+          "purpose": "Lookup -> invoice the payment settles"
+        },
+        {
+          "logical_name": "mueller_customerid",
+          "type": "Lookup",
+          "purpose": "Lookup -> account (denormalized for fast reporting)"
+        },
+        {
+          "logical_name": "mueller_paymentdate",
+          "type": "DateTime",
+          "purpose": "When the payment cleared"
+        },
+        {
+          "logical_name": "mueller_amount",
+          "type": "Money",
+          "purpose": "Payment amount in customer currency"
+        },
+        {
+          "logical_name": "mueller_currencyid",
+          "type": "Lookup",
+          "purpose": "Lookup -> transactioncurrency"
+        },
+        {
+          "logical_name": "mueller_paymentmethod",
+          "type": "OptionSet",
+          "purpose": "SEPA / wire / card / check / cash"
+        },
+        {
+          "logical_name": "mueller_bankreference",
+          "type": "String",
+          "purpose": "Bank reference / SEPA mandate ID"
+        },
+        {
+          "logical_name": "mueller_dayslate",
+          "type": "Integer",
+          "purpose": "Days late vs invoice due date (0 = on time)"
+        },
+        {
+          "logical_name": "mueller_exchangerate",
+          "type": "Decimal",
+          "purpose": "FX rate at time of payment for non-EUR currencies"
+        },
+        {
+          "logical_name": "mueller_baseamount",
+          "type": "Money",
+          "purpose": "Payment amount converted to EUR base currency"
+        }
+      ]
+    },
+    {
+      "proposed_logical_name": "mueller_paymentplan",
+      "purpose": "Header for a multi-installment payment plan negotiated with a customer for an overdue balance.",
+      "scenarios_served": [
+        4,
+        5,
+        6
+      ],
+      "proposed_columns": [
+        {
+          "logical_name": "mueller_paymentplanid",
+          "type": "Uniqueidentifier",
+          "purpose": "Primary key"
+        },
+        {
+          "logical_name": "mueller_name",
+          "type": "String",
+          "purpose": "Plan reference (e.g. PP-2026-0042)"
+        },
+        {
+          "logical_name": "mueller_customerid",
+          "type": "Lookup",
+          "purpose": "Lookup -> account"
+        },
+        {
+          "logical_name": "mueller_invoiceid",
+          "type": "Lookup",
+          "purpose": "Original invoice covered by the plan"
+        },
+        {
+          "logical_name": "mueller_totalamount",
+          "type": "Money",
+          "purpose": "Total balance being rescheduled"
+        },
+        {
+          "logical_name": "mueller_installmentcount",
+          "type": "Integer",
+          "purpose": "Number of installments"
+        },
+        {
+          "logical_name": "mueller_startdate",
+          "type": "DateTime",
+          "purpose": "First installment due date"
+        },
+        {
+          "logical_name": "mueller_status",
+          "type": "OptionSet",
+          "purpose": "Proposed / Active / Completed / Defaulted"
+        },
+        {
+          "logical_name": "mueller_acceptedby",
+          "type": "Lookup",
+          "purpose": "Lookup -> contact who accepted"
+        },
+        {
+          "logical_name": "mueller_accepteddate",
+          "type": "DateTime",
+          "purpose": "When the customer accepted"
+        }
+      ]
+    },
+    {
+      "proposed_logical_name": "mueller_paymentplaninstallment",
+      "purpose": "One scheduled installment within a payment plan.",
+      "scenarios_served": [
+        4
+      ],
+      "proposed_columns": [
+        {
+          "logical_name": "mueller_paymentplaninstallmentid",
+          "type": "Uniqueidentifier",
+          "purpose": "Primary key"
+        },
+        {
+          "logical_name": "mueller_paymentplanid",
+          "type": "Lookup",
+          "purpose": "Parent plan"
+        },
+        {
+          "logical_name": "mueller_sequence",
+          "type": "Integer",
+          "purpose": "1, 2, 3 ..."
+        },
+        {
+          "logical_name": "mueller_duedate",
+          "type": "DateTime",
+          "purpose": "Installment due date"
+        },
+        {
+          "logical_name": "mueller_amount",
+          "type": "Money",
+          "purpose": "Amount due this installment"
+        },
+        {
+          "logical_name": "mueller_status",
+          "type": "OptionSet",
+          "purpose": "Pending / Paid / Late / Missed"
+        },
+        {
+          "logical_name": "mueller_paymenteventid",
+          "type": "Lookup",
+          "purpose": "Lookup -> mueller_paymentevent that settled this installment"
+        }
+      ]
+    },
+    {
+      "proposed_logical_name": "mueller_sepamandate",
+      "purpose": "SEPA direct-debit mandate per customer (mandate ID, signed date, IBAN-tail, status). DACH-specific. Stores full SEPA mandate per German DK / Bundesbank rules. IBAN is in scope here because demo data is synthetic; in production this would live in a vault.",
+      "scenarios_served": [
+        4
+      ],
+      "proposed_columns": [
+        {
+          "logical_name": "mueller_sepamandateid",
+          "type": "Uniqueidentifier",
+          "purpose": "Primary key"
+        },
+        {
+          "logical_name": "mueller_mandatereference",
+          "type": "String",
+          "purpose": "Unique mandate reference per SEPA rules"
+        },
+        {
+          "logical_name": "mueller_customerid",
+          "type": "Lookup",
+          "purpose": "Lookup -> account"
+        },
+        {
+          "logical_name": "mueller_ibantail",
+          "type": "String",
+          "purpose": "Last 4 digits of IBAN (do not store full IBAN here)"
+        },
+        {
+          "logical_name": "mueller_signeddate",
+          "type": "DateTime",
+          "purpose": "When the mandate was signed by the customer"
+        },
+        {
+          "logical_name": "mueller_status",
+          "type": "OptionSet",
+          "purpose": "Active / Suspended / Revoked / Expired"
+        },
+        {
+          "logical_name": "mueller_lastuseddate",
+          "type": "DateTime",
+          "purpose": "Last successful use (for 36-month dormancy rule)"
+        },
+        {
+          "logical_name": "mueller_iban",
+          "type": "String",
+          "max_length": 34,
+          "purpose": "Full IBAN (synthetic demo data only - real systems vault this)"
+        },
+        {
+          "logical_name": "mueller_bic",
+          "type": "String",
+          "max_length": 11,
+          "purpose": "BIC / SWIFT code"
+        },
+        {
+          "logical_name": "mueller_creditorid",
+          "type": "String",
+          "max_length": 35,
+          "purpose": "German Glaeubiger-ID, e.g. DE98ZZZ09999999999"
+        },
+        {
+          "logical_name": "mueller_mandatetype",
+          "type": "OptionSet",
+          "purpose": "CORE / B2B / COR1"
+        },
+        {
+          "logical_name": "mueller_firstuseflag",
+          "type": "Boolean",
+          "purpose": "True if SEPA pre-notification still required for the next collection"
+        },
+        {
+          "logical_name": "mueller_amendmentcount",
+          "type": "Integer",
+          "purpose": "Tracks mandate amendments per SEPA rules"
+        }
+      ]
+    },
+    {
+      "proposed_logical_name": "mueller_dunningevent",
+      "purpose": "Each dunning step taken on an invoice (gentle reminder, formal demand, escalation, legal). Letter/email activity tables don't capture the dunning workflow state.",
+      "scenarios_served": [
+        2,
+        4,
+        8,
+        10
+      ],
+      "proposed_columns": [
+        {
+          "logical_name": "mueller_dunningeventid",
+          "type": "Uniqueidentifier",
+          "purpose": "Primary key"
+        },
+        {
+          "logical_name": "mueller_invoiceid",
+          "type": "Lookup",
+          "purpose": "Lookup -> invoice"
+        },
+        {
+          "logical_name": "mueller_customerid",
+          "type": "Lookup",
+          "purpose": "Lookup -> account (denormalized)"
+        },
+        {
+          "logical_name": "mueller_stage",
+          "type": "OptionSet",
+          "purpose": "Friendly / Standard / Escalated / FinalDemand / Legal"
+        },
+        {
+          "logical_name": "mueller_tone",
+          "type": "OptionSet",
+          "purpose": "Friendly / Standard / Strict / WhiteGlove"
+        },
+        {
+          "logical_name": "mueller_channel",
+          "type": "OptionSet",
+          "purpose": "Email / Letter / PhoneCall"
+        },
+        {
+          "logical_name": "mueller_sentdate",
+          "type": "DateTime",
+          "purpose": "When the dunning was sent"
+        },
+        {
+          "logical_name": "mueller_emailid",
+          "type": "Lookup",
+          "purpose": "Lookup -> email activity"
+        },
+        {
+          "logical_name": "mueller_letterid",
+          "type": "Lookup",
+          "purpose": "Lookup -> letter activity"
+        },
+        {
+          "logical_name": "mueller_responsereceived",
+          "type": "Boolean",
+          "purpose": "Did customer respond?"
+        }
+      ]
+    },
+    {
+      "proposed_logical_name": "mueller_creditsignal",
+      "purpose": "External credit-bureau signal (e.g. Creditreform downgrade, insolvency notice). Inputs to the daily risk score.",
+      "scenarios_served": [
+        1,
+        5
+      ],
+      "proposed_columns": [
+        {
+          "logical_name": "mueller_creditsignalid",
+          "type": "Uniqueidentifier",
+          "purpose": "Primary key"
+        },
+        {
+          "logical_name": "mueller_customerid",
+          "type": "Lookup",
+          "purpose": "Lookup -> account"
+        },
+        {
+          "logical_name": "mueller_source",
+          "type": "OptionSet",
+          "purpose": "Creditreform / Bisnode / SCHUFA / Manual / News"
+        },
+        {
+          "logical_name": "mueller_signaltype",
+          "type": "OptionSet",
+          "purpose": "ScoreChange / Insolvency / LegalAction / NewsAlert / OwnerChange"
+        },
+        {
+          "logical_name": "mueller_severity",
+          "type": "OptionSet",
+          "purpose": "Info / Warning / Critical"
+        },
+        {
+          "logical_name": "mueller_score",
+          "type": "Decimal",
+          "purpose": "Numeric score from source if applicable"
+        },
+        {
+          "logical_name": "mueller_receiveddate",
+          "type": "DateTime",
+          "purpose": "When the signal was received"
+        },
+        {
+          "logical_name": "mueller_payload",
+          "type": "Memo",
+          "purpose": "Raw signal payload for auditing"
+        }
+      ]
+    },
+    {
+      "proposed_logical_name": "mueller_riskscoresnapshot",
+      "purpose": "Daily risk score per open invoice. Time-series so we can see baseline drift per customer over time.",
+      "scenarios_served": [
+        1,
+        2,
+        7,
+        8
+      ],
+      "proposed_columns": [
+        {
+          "logical_name": "mueller_riskscoresnapshotid",
+          "type": "Uniqueidentifier",
+          "purpose": "Primary key"
+        },
+        {
+          "logical_name": "mueller_invoiceid",
+          "type": "Lookup",
+          "purpose": "Lookup -> invoice"
+        },
+        {
+          "logical_name": "mueller_customerid",
+          "type": "Lookup",
+          "purpose": "Lookup -> account (denormalized)"
+        },
+        {
+          "logical_name": "mueller_snapshotdate",
+          "type": "DateTime",
+          "purpose": "Date the score was computed (daily)"
+        },
+        {
+          "logical_name": "mueller_riskscore",
+          "type": "Decimal",
+          "purpose": "0.0 - 1.0 probability of late payment"
+        },
+        {
+          "logical_name": "mueller_modelversion",
+          "type": "String",
+          "purpose": "Which model produced this score"
+        },
+        {
+          "logical_name": "mueller_topfeatures",
+          "type": "Memo",
+          "purpose": "JSON: top contributing features for explainability"
+        },
+        {
+          "logical_name": "mueller_thresholdcrossed",
+          "type": "Boolean",
+          "purpose": "Did this snapshot cross the high-risk threshold today?"
+        }
+      ]
+    },
+    {
+      "proposed_logical_name": "mueller_agentdecision",
+      "purpose": "Every action the agent takes - decision, reasoning, inputs used, outcome. The audit-trail backbone for scenario 10.",
+      "scenarios_served": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "proposed_columns": [
+        {
+          "logical_name": "mueller_agentdecisionid",
+          "type": "Uniqueidentifier",
+          "purpose": "Primary key"
+        },
+        {
+          "logical_name": "mueller_scenario",
+          "type": "OptionSet",
+          "purpose": "Which of the 10 scenarios this decision belongs to"
+        },
+        {
+          "logical_name": "mueller_decisiontype",
+          "type": "OptionSet",
+          "purpose": "RiskScored / EmailSent / OrderHeld / DisputeRouted / PlanProposed / etc."
+        },
+        {
+          "logical_name": "mueller_customerid",
+          "type": "Lookup",
+          "purpose": "Lookup -> account"
+        },
+        {
+          "logical_name": "mueller_invoiceid",
+          "type": "Lookup",
+          "purpose": "Lookup -> invoice (when applicable)"
+        },
+        {
+          "logical_name": "mueller_orderid",
+          "type": "Lookup",
+          "purpose": "Lookup -> salesorder (when applicable)"
+        },
+        {
+          "logical_name": "mueller_decidedat",
+          "type": "DateTime",
+          "purpose": "Timestamp"
+        },
+        {
+          "logical_name": "mueller_reasoning",
+          "type": "Memo",
+          "purpose": "Plain-language reasoning the agent recorded"
+        },
+        {
+          "logical_name": "mueller_inputshash",
+          "type": "String",
+          "purpose": "Hash of the input data used (for reproducibility)"
+        },
+        {
+          "logical_name": "mueller_inputspayload",
+          "type": "Memo",
+          "purpose": "JSON snapshot of inputs used in the decision"
+        },
+        {
+          "logical_name": "mueller_outcome",
+          "type": "OptionSet",
+          "purpose": "Executed / Suppressed / RoutedToHuman / Overridden"
+        },
+        {
+          "logical_name": "mueller_overrideby",
+          "type": "Lookup",
+          "purpose": "Lookup -> systemuser if a human overrode"
+        },
+        {
+          "logical_name": "mueller_overridereason",
+          "type": "Memo",
+          "purpose": "Why the human overrode (training signal)"
+        },
+        {
+          "logical_name": "mueller_confidencescore",
+          "type": "Decimal",
+          "purpose": "Model confidence 0.0-1.0; low values are auto-routed to humans"
+        },
+        {
+          "logical_name": "mueller_modelname",
+          "type": "String",
+          "purpose": "Which model produced the decision (gpt-4o, custom-classifier-v2, etc.)"
+        },
+        {
+          "logical_name": "mueller_promptversion",
+          "type": "String",
+          "purpose": "Prompt template version for reproducibility"
+        }
+      ]
+    },
+    {
+      "proposed_logical_name": "mueller_deliverynote",
+      "purpose": "Hardware delivery note with line items linked to a sales order. Needed for proof-of-delivery dossiers in dispute handling.",
+      "scenarios_served": [
+        3,
+        6
+      ],
+      "proposed_columns": [
+        {
+          "logical_name": "mueller_deliverynoteid",
+          "type": "Uniqueidentifier",
+          "purpose": "Primary key"
+        },
+        {
+          "logical_name": "mueller_name",
+          "type": "String",
+          "purpose": "Delivery note number"
+        },
+        {
+          "logical_name": "mueller_orderid",
+          "type": "Lookup",
+          "purpose": "Lookup -> salesorder"
+        },
+        {
+          "logical_name": "mueller_customerid",
+          "type": "Lookup",
+          "purpose": "Lookup -> account"
+        },
+        {
+          "logical_name": "mueller_deliverydate",
+          "type": "DateTime",
+          "purpose": "When goods were delivered"
+        },
+        {
+          "logical_name": "mueller_carrier",
+          "type": "String",
+          "purpose": "Shipping carrier"
+        },
+        {
+          "logical_name": "mueller_trackingnumber",
+          "type": "String",
+          "purpose": "Carrier tracking number"
+        },
+        {
+          "logical_name": "mueller_signedbyname",
+          "type": "String",
+          "purpose": "Recipient signature name"
+        },
+        {
+          "logical_name": "mueller_signedimageurl",
+          "type": "String",
+          "purpose": "SharePoint URL of signed POD image"
+        }
+      ]
+    },
+    {
+      "proposed_logical_name": "mueller_lifetimevaluesnapshot",
+      "purpose": "Periodic LTV calculation per customer with components (revenue, margin, tenure). Used to choose tone of communication.",
+      "scenarios_served": [
+        2,
+        8
+      ],
+      "proposed_columns": [
+        {
+          "logical_name": "mueller_lifetimevaluesnapshotid",
+          "type": "Uniqueidentifier",
+          "purpose": "Primary key"
+        },
+        {
+          "logical_name": "mueller_customerid",
+          "type": "Lookup",
+          "purpose": "Lookup -> account"
+        },
+        {
+          "logical_name": "mueller_snapshotdate",
+          "type": "DateTime",
+          "purpose": "When LTV was calculated"
+        },
+        {
+          "logical_name": "mueller_ltvamount",
+          "type": "Money",
+          "purpose": "Lifetime value in EUR"
+        },
+        {
+          "logical_name": "mueller_revenuetotal",
+          "type": "Money",
+          "purpose": "Cumulative revenue to date"
+        },
+        {
+          "logical_name": "mueller_margintotal",
+          "type": "Money",
+          "purpose": "Cumulative margin"
+        },
+        {
+          "logical_name": "mueller_tenuredays",
+          "type": "Integer",
+          "purpose": "Days as a customer"
+        },
+        {
+          "logical_name": "mueller_segment",
+          "type": "OptionSet",
+          "purpose": "Strategic / Loyal / MidTier / NewOrAtRisk"
+        }
+      ]
+    },
+    {
+      "proposed_logical_name": "mueller_churnsignal",
+      "purpose": "Detected early churn signal (order frequency drop, complaint spike, sentiment decline) with severity.",
+      "scenarios_served": [
+        8
+      ],
+      "proposed_columns": [
+        {
+          "logical_name": "mueller_churnsignalid",
+          "type": "Uniqueidentifier",
+          "purpose": "Primary key"
+        },
+        {
+          "logical_name": "mueller_customerid",
+          "type": "Lookup",
+          "purpose": "Lookup -> account"
+        },
+        {
+          "logical_name": "mueller_signaltype",
+          "type": "OptionSet",
+          "purpose": "OrderFrequencyDrop / ComplaintSpike / NegativeSentiment / Disengagement"
+        },
+        {
+          "logical_name": "mueller_severity",
+          "type": "OptionSet",
+          "purpose": "Low / Medium / High"
+        },
+        {
+          "logical_name": "mueller_detecteddate",
+          "type": "DateTime",
+          "purpose": "When the signal fired"
+        },
+        {
+          "logical_name": "mueller_baselinevalue",
+          "type": "Decimal",
+          "purpose": "What 'normal' looked like"
+        },
+        {
+          "logical_name": "mueller_currentvalue",
+          "type": "Decimal",
+          "purpose": "What was observed"
+        },
+        {
+          "logical_name": "mueller_routedtouserid",
+          "type": "Lookup",
+          "purpose": "Account manager assigned"
+        }
+      ]
+    },
+    {
+      "proposed_logical_name": "mueller_communicationpreference",
+      "purpose": "Per-customer preferences (formal Sie vs informal Du, channel, suppress automated dunning, language).",
+      "scenarios_served": [
+        2,
+        8,
+        10
+      ],
+      "proposed_columns": [
+        {
+          "logical_name": "mueller_communicationpreferenceid",
+          "type": "Uniqueidentifier",
+          "purpose": "Primary key"
+        },
+        {
+          "logical_name": "mueller_customerid",
+          "type": "Lookup",
+          "purpose": "Lookup -> account"
+        },
+        {
+          "logical_name": "mueller_formality",
+          "type": "OptionSet",
+          "purpose": "Sie / Du"
+        },
+        {
+          "logical_name": "mueller_preferredchannel",
+          "type": "OptionSet",
+          "purpose": "Email / Letter / Phone / Portal"
+        },
+        {
+          "logical_name": "mueller_suppressautomation",
+          "type": "Boolean",
+          "purpose": "Always route to a human"
+        },
+        {
+          "logical_name": "mueller_language",
+          "type": "String",
+          "purpose": "BCP-47 e.g. de-DE, de-AT, de-CH"
+        },
+        {
+          "logical_name": "mueller_quiethoursstart",
+          "type": "Integer",
+          "purpose": "Hour of day to suppress sends"
+        },
+        {
+          "logical_name": "mueller_quiethoursend",
+          "type": "Integer",
+          "purpose": "Hour of day to resume"
+        }
+      ]
+    }
+  ],
+  "custom_columns_to_add": [
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_paymentriskscore",
+      "type": "Decimal",
+      "purpose": "Daily aggregate risk score 0-1 across the customer's open invoices",
+      "scenarios_served": [
+        1,
+        2,
+        5,
+        7
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_segment",
+      "type": "OptionSet",
+      "purpose": "Strategic / Loyal / MidTier / RepeatLatePayer / New - drives tone of communication",
+      "scenarios_served": [
+        2,
+        8
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_communicationtone",
+      "type": "OptionSet",
+      "purpose": "Friendly / Standard / Strict / WhiteGlove - precomputed tone for outbound dunning",
+      "scenarios_served": [
+        2
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_lifetimevalue",
+      "type": "Money",
+      "purpose": "Latest snapshot of LTV (denormalized from mueller_lifetimevaluesnapshot for fast filtering). Refresh policy: updated daily by a background job that reads from mueller_lifetimevaluesnapshot. The snapshot table is the source of truth; this column is a denormalized convenience for fast filtering and dashboards.",
+      "scenarios_served": [
+        2,
+        8
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_dsodays",
+      "type": "Decimal",
+      "purpose": "Customer-level DSO over rolling window",
+      "scenarios_served": [
+        1,
+        7
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_creditreformscore",
+      "type": "Decimal",
+      "purpose": "Latest external credit-bureau score (Creditreform / Bisnode)",
+      "scenarios_served": [
+        1,
+        5
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_creditreformupdated",
+      "type": "DateTime",
+      "purpose": "When the external credit score was last refreshed",
+      "scenarios_served": [
+        1,
+        5
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_isstrategicaccount",
+      "type": "Boolean",
+      "purpose": "Marks accounts that always require human-in-the-loop handling",
+      "scenarios_served": [
+        2,
+        5,
+        8
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_keyaccountmanager",
+      "type": "Lookup",
+      "purpose": "Lookup -> systemuser - the human owner for white-glove handling",
+      "scenarios_served": [
+        2,
+        5,
+        8
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_blockorders",
+      "type": "Boolean",
+      "purpose": "Hard block on accepting new orders (advanced collection / insolvency)",
+      "scenarios_served": [
+        5
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_riskscore",
+      "type": "Decimal",
+      "purpose": "Latest predictive late-payment risk score 0-1 for this invoice",
+      "scenarios_served": [
+        1,
+        7
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_riskscoreupdated",
+      "type": "DateTime",
+      "purpose": "When mueller_riskscore was last computed",
+      "scenarios_served": [
+        1
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_isdisputed",
+      "type": "Boolean",
+      "purpose": "Customer has disputed this invoice (set from email classification)",
+      "scenarios_served": [
+        3,
+        6
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_disputereason",
+      "type": "Memo",
+      "purpose": "Free-text dispute reason captured from inbound email",
+      "scenarios_served": [
+        3,
+        6
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_paymentplanid",
+      "type": "Lookup",
+      "purpose": "Lookup -> mueller_paymentplan - non-null if this invoice is in a rescheduled plan",
+      "scenarios_served": [
+        4
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_dunningstage",
+      "type": "OptionSet",
+      "purpose": "Current dunning stage on the invoice (last mueller_dunningevent denormalized)",
+      "scenarios_served": [
+        2,
+        4
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_extensiongranted",
+      "type": "DateTime",
+      "purpose": "New due date if an extension was granted (null otherwise)",
+      "scenarios_served": [
+        4
+      ]
+    },
+    {
+      "target_table": "salesorder",
+      "new_column_logical_name": "mueller_oncreditholdreason",
+      "type": "OptionSet",
+      "purpose": "Why the order is on credit hold (BalanceExceeded / InsolvencySignal / Manual)",
+      "scenarios_served": [
+        5
+      ]
+    },
+    {
+      "target_table": "salesorder",
+      "new_column_logical_name": "mueller_holdplaceddate",
+      "type": "DateTime",
+      "purpose": "When the order was placed on hold",
+      "scenarios_served": [
+        5
+      ]
+    },
+    {
+      "target_table": "salesorder",
+      "new_column_logical_name": "mueller_releasedate",
+      "type": "DateTime",
+      "purpose": "When the order was released from hold (null = still held)",
+      "scenarios_served": [
+        5
+      ]
+    },
+    {
+      "target_table": "salesorder",
+      "new_column_logical_name": "mueller_holdoverrideby",
+      "type": "Lookup",
+      "purpose": "Lookup -> systemuser - the rep who overrode the hold for relationship-critical cases",
+      "scenarios_served": [
+        5
+      ]
+    },
+    {
+      "target_table": "email",
+      "new_column_logical_name": "mueller_classification",
+      "type": "OptionSet",
+      "purpose": "Reschedule / Dispute / ProofOfDelivery / PaymentConfirmation / GeneralQuestion",
+      "scenarios_served": [
+        3
+      ]
+    },
+    {
+      "target_table": "email",
+      "new_column_logical_name": "mueller_languagedetected",
+      "type": "String",
+      "purpose": "BCP-47 language tag detected from message body",
+      "scenarios_served": [
+        3,
+        10
+      ]
+    },
+    {
+      "target_table": "email",
+      "new_column_logical_name": "mueller_sentimentscore",
+      "type": "Decimal",
+      "purpose": "-1 to 1 sentiment score - negative values trigger escalation routing",
+      "scenarios_served": [
+        3,
+        8
+      ]
+    },
+    {
+      "target_table": "email",
+      "new_column_logical_name": "mueller_routedtouserid",
+      "type": "Lookup",
+      "purpose": "Lookup -> systemuser the email was routed to (escalation, complex case)",
+      "scenarios_served": [
+        3,
+        8
+      ]
+    },
+    {
+      "target_table": "email",
+      "new_column_logical_name": "mueller_agentdrafted",
+      "type": "Boolean",
+      "purpose": "True if the agent generated this email draft (vs. fully autonomous send)",
+      "scenarios_served": [
+        2,
+        3,
+        10
+      ]
+    },
+    {
+      "target_table": "incident",
+      "new_column_logical_name": "mueller_disputetype",
+      "type": "OptionSet",
+      "purpose": "PriceMismatch / QuantityShort / DamagedGoods / WrongItem / TaxIncorrect / NotReceived",
+      "scenarios_served": [
+        6
+      ]
+    },
+    {
+      "target_table": "incident",
+      "new_column_logical_name": "mueller_invoiceid",
+      "type": "Lookup",
+      "purpose": "Lookup -> invoice the dispute is about",
+      "scenarios_served": [
+        6
+      ]
+    },
+    {
+      "target_table": "incident",
+      "new_column_logical_name": "mueller_resolutiondays",
+      "type": "Integer",
+      "purpose": "Days from creation to resolution (for stall detection)",
+      "scenarios_served": [
+        6
+      ]
+    },
+    {
+      "target_table": "contract",
+      "new_column_logical_name": "mueller_renewaltriggerdate",
+      "type": "DateTime",
+      "purpose": "Date 90 days before contract end - triggers renewal workflow",
+      "scenarios_served": [
+        9
+      ]
+    },
+    {
+      "target_table": "contract",
+      "new_column_logical_name": "mueller_billingrhythm",
+      "type": "OptionSet",
+      "purpose": "Annual / Quarterly / Monthly / Milestone / OnDelivery",
+      "scenarios_served": [
+        9
+      ]
+    },
+    {
+      "target_table": "contract",
+      "new_column_logical_name": "mueller_autorenewenabled",
+      "type": "Boolean",
+      "purpose": "Should renewal happen automatically when no opt-out is received?",
+      "scenarios_served": [
+        9
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_taxrate",
+      "type": "Decimal",
+      "purpose": "German USt-Satz 19.0 / 7.0 / 0.0",
+      "scenarios_served": [
+        6,
+        9
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_taxamount",
+      "type": "Money",
+      "purpose": "Calculated USt-Betrag for the invoice",
+      "scenarios_served": [
+        6,
+        9
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_netamount",
+      "type": "Money",
+      "purpose": "Nettobetrag (pre-tax)",
+      "scenarios_served": [
+        6,
+        9
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_grossamount",
+      "type": "Money",
+      "purpose": "Bruttobetrag (post-tax)",
+      "scenarios_served": [
+        6,
+        9
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_reversecharge",
+      "type": "Boolean",
+      "purpose": "Intra-EU reverse charge flag (Section 13b UStG)",
+      "scenarios_served": [
+        6,
+        9
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_buyervatid",
+      "type": "String",
+      "purpose": "Customer USt-IdNr. captured on the invoice (required for B2B intra-EU)",
+      "scenarios_served": [
+        6,
+        9
+      ]
+    },
+    {
+      "target_table": "invoicedetail",
+      "new_column_logical_name": "mueller_linetaxrate",
+      "type": "Decimal",
+      "purpose": "USt-Satz applied to this invoice line",
+      "scenarios_served": [
+        6,
+        9
+      ]
+    },
+    {
+      "target_table": "invoicedetail",
+      "new_column_logical_name": "mueller_linetaxamount",
+      "type": "Money",
+      "purpose": "USt-Betrag for this invoice line",
+      "scenarios_served": [
+        6,
+        9
+      ]
+    },
+    {
+      "target_table": "invoicedetail",
+      "new_column_logical_name": "mueller_linenetamount",
+      "type": "Money",
+      "purpose": "Nettobetrag for this invoice line",
+      "scenarios_served": [
+        6,
+        9
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_legalform",
+      "type": "OptionSet",
+      "purpose": "GmbH / AG / KG / OHG / GbR / UG / Einzelunternehmen / Sonstige",
+      "scenarios_served": [
+        2,
+        5,
+        6,
+        9,
+        10
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_handelsregisternummer",
+      "type": "String",
+      "purpose": "HRB or HRA number (max 20)",
+      "scenarios_served": [
+        2,
+        5,
+        6,
+        9,
+        10
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_amtsgericht",
+      "type": "String",
+      "purpose": "Registry court that holds the Handelsregister entry (max 80)",
+      "scenarios_served": [
+        2,
+        5,
+        6,
+        9,
+        10
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_ustidnr",
+      "type": "String",
+      "purpose": "USt-IdNr., format DE + 9 digits (max 20)",
+      "scenarios_served": [
+        2,
+        5,
+        6,
+        9,
+        10
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_steuernummer",
+      "type": "String",
+      "purpose": "Finanzamt Steuernummer (max 20)",
+      "scenarios_served": [
+        2,
+        5,
+        6,
+        9,
+        10
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_glaeubigerid",
+      "type": "String",
+      "purpose": "Customer's own Glaeubiger-ID if relevant (max 35)",
+      "scenarios_served": [
+        2,
+        5,
+        6,
+        9,
+        10
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_kontaktpreferenz_anrede",
+      "type": "OptionSet",
+      "purpose": "Herr / Frau / Divers / Firma - drives salutation in dunning letters",
+      "scenarios_served": [
+        2,
+        5,
+        6,
+        9,
+        10
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_openbalance",
+      "type": "Money",
+      "purpose": "Sum of outstanding amounts across all open invoices for this customer. Refreshed daily by background job.",
+      "scenarios_served": [
+        1,
+        5,
+        7
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_overduebalance",
+      "type": "Money",
+      "purpose": "Subset of mueller_openbalance that is past due. Refreshed daily by background job.",
+      "scenarios_served": [
+        1,
+        5,
+        7
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_oldestoverduedate",
+      "type": "DateTime",
+      "purpose": "Due date of the oldest unpaid invoice; null if no overdue. Refreshed daily by background job.",
+      "scenarios_served": [
+        1,
+        5,
+        7
+      ]
+    },
+    {
+      "target_table": "account",
+      "new_column_logical_name": "mueller_balancelastrefreshed",
+      "type": "DateTime",
+      "purpose": "Timestamp of the last balance recomputation",
+      "scenarios_served": [
+        1,
+        5,
+        7
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_paidamount",
+      "type": "Money",
+      "purpose": "Cumulative amount paid against this invoice (sum of related mueller_paymentevent.mueller_amount)",
+      "scenarios_served": [
+        1,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_outstandingamount",
+      "type": "Money",
+      "purpose": "Remaining unpaid amount; if zero, invoice is fully settled",
+      "scenarios_served": [
+        1,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_partiallypaid",
+      "type": "Boolean",
+      "purpose": "True if mueller_paidamount > 0 and mueller_outstandingamount > 0",
+      "scenarios_served": [
+        1,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_skontopercent",
+      "type": "Decimal",
+      "purpose": "Early payment discount percentage, e.g. 2.0 means 2% off",
+      "scenarios_served": [
+        1,
+        2,
+        4,
+        6
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_skontodeadline",
+      "type": "DateTime",
+      "purpose": "Last date Skonto can be claimed",
+      "scenarios_served": [
+        1,
+        2,
+        4,
+        6
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_skontoamount",
+      "type": "Money",
+      "purpose": "Calculated Skonto amount in EUR",
+      "scenarios_served": [
+        1,
+        2,
+        4,
+        6
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_skontoclaimed",
+      "type": "Boolean",
+      "purpose": "Did the customer actually pay within the Skonto window?",
+      "scenarios_served": [
+        1,
+        2,
+        4,
+        6
+      ]
+    },
+    {
+      "target_table": "invoice",
+      "new_column_logical_name": "mueller_nettodeadline",
+      "type": "DateTime",
+      "purpose": "Standard non-Skonto due date (same value as duedate but stored explicitly for clarity in payment-terms reasoning)",
+      "scenarios_served": [
+        1,
+        2,
+        4,
+        6
+      ]
+    }
+  ]
+}

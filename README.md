@@ -133,11 +133,20 @@ usw.) sind nicht als Wissensquelle, sondern über Werkzeuge erreichbar.
 
 ## Implementierungsstand
 
-**Produktiv** (über die Copilot-Studio-Maker-Oberfläche gebaut):
+**Produktiv im Einsatz auf dem Agent `Agent Müller "Zahlungsassistent"` (Umgebung `dso-demo`):**
 
-- **`Get Customer Open Invoices`** — Agent-Flow, der für einen Kunden alle
-  offenen Rechnungen sortiert nach Außenstand liefert. Detailspezifikation
-  in [`copilot_studio/tools/get_customer_open_invoices/README.md`](copilot_studio/tools/get_customer_open_invoices/README.md).
+1. **`Get Customer Open Invoices`** — Agent-Flow, der für einen Kunden alle
+   offenen Rechnungen sortiert nach Außenstand liefert. Bereitstellung über
+   die Copilot-Studio-Maker-Oberfläche. Detailspezifikation in
+   [`copilot_studio/tools/get_customer_open_invoices/README.md`](copilot_studio/tools/get_customer_open_invoices/README.md).
+2. **`Log Agent Decision`** (zugrunde liegender Workflow `LogAgentDecisionV2`) —
+   Audit-Trail-Schreibwerkzeug; protokolliert jede sinnvolle Agent-Entscheidung
+   in `mueller_agentdecision`. Voraussetzung für **alle** weiteren acht
+   Schreib-Werkzeuge (T18–T25). Bereitstellung kombinierte Python-SDK-
+   Erzeugung der Workflow-Definition mit Maker-Aktivierung — siehe
+   [`copilot_studio/tools/log_agent_decision/README.md`](copilot_studio/tools/log_agent_decision/README.md)
+   für die Erkenntnisse zur Connection-Authorization-Hürde und zur
+   Skills-Trigger-Schlüssel-Umbenennung.
 
 **Vorbereitet** (Schema, Daten, Authentifizierung steht):
 
@@ -149,7 +158,8 @@ usw.) sind nicht als Wissensquelle, sondern über Werkzeuge erreichbar.
 
 **Geplant**:
 
-- 27 weitere Werkzeuge (siehe Werkzeugkatalog) als Agent-Flows
+- 26 weitere Werkzeuge (siehe Werkzeugkatalog) als Agent-Flows oder
+  Prompt-Werkzeuge
 - 5 deterministische Themen für sensible Abläufe (Genehmigung,
   menschliche Übergabe, Ratenplanvereinbarung)
 - Anbindung externer Bonitätssignale (Creditreform-Web-Service)
@@ -248,7 +258,10 @@ ki-forderungsmanagement-agent/
     ├── knowledge_sources.md               ← 15 Wissensquellen mit Beschreibung
     └── tools/
         ├── get_customer_open_invoices/README.md ← Werkzeug 1 (produktiv, via Maker-UI)
-        └── log_agent_decision/                  ← Werkzeug 2 (programmatisch, via Python-SDK)
+        └── log_agent_decision/                  ← Werkzeug 2 (produktiv als LogAgentDecisionV2)
+            ├── README.md                        ← Spezifikation, Erkenntnisse, Audit-Datensätze
+            ├── flow_definition.py               ← Referenz-JSON-Erzeugung
+            └── deploy.py                        ← Referenz-Bereitstellung (UI-Pfad bevorzugt)
 ```
 
 ## Lizenz und Kontakt

@@ -1,12 +1,25 @@
 # Werkzeug: Log Agent Decision
 
-> **Status**: in Entwicklung. Programmatisch über die Dataverse Web API
-> bereitgestellt — kein Klick im Copilot-Studio-Maker erforderlich.
+> **Status**: ✅ **produktiv im Einsatz** auf dem Agent
+> *Agent Müller "Zahlungsassistent"* in der Umgebung `dso-demo`. Aktive
+> Werkzeug-Bezeichnung im Maker: **`Log Agent Decision`**, zugrunde
+> liegender Workflow: **`LogAgentDecisionV2`** (statecode = 1, Activated,
+> publiziert am 2026-05-05).
+>
+> **Bereitstellungspfad in der Praxis**: durch den In-Browser-Coding-Agent
+> direkt in der Copilot-Studio-Maker-Oberfläche, **nicht** durch
+> `deploy.py`. Der Python-SDK-Pfad wurde versucht (`LogAgentDecision`
+> v1, workflowid `6ea8c2dc-…`), schlägt aber an der
+> Connection-Authorization-Hürde fehl (siehe Abschnitt
+> [Bekannte Einschränkungen](#bekannte-einschr%C3%A4nkungen)). Der
+> Workflow-Datensatz wurde zwar angelegt, ließ sich aber programmatisch
+> nicht aktivieren, weil die Service-Principal-Identität die Dataverse-
+> Verbindung nicht besitzt.
 >
 > **Komponenten dieses Verzeichnisses**:
 > - [`README.md`](README.md) — diese Dokumentation (alles, was der Code nicht selbst erklärt)
-> - [`flow_definition.py`](flow_definition.py) — erzeugt das Logic-Apps-Workflow-Definition-JSON
-> - [`deploy.py`](deploy.py) — `POST /api/data/v9.2/workflows`, fügt zur Lösung hinzu, optional Aktivierung
+> - [`flow_definition.py`](flow_definition.py) — Referenz-Implementierung des Logic-Apps-Workflow-Definition-JSON; nicht der produktive Bereitstellungspfad
+> - [`deploy.py`](deploy.py) — Referenz-Implementierung des `POST /api/data/v9.2/workflows`-Pfads; nicht der produktive Bereitstellungspfad
 >
 > **Konvention**: Beide Python-Skripte enthalten **bewusst keine Kommentare und keine Docstrings**.
 > Funktionsnamen tragen die Bedeutung; alles weitere steht hier in der README.
@@ -248,8 +261,77 @@ Registrierung ausschließlich den UI-Pfad. Nach erfolgreichem Deployment:
   Maker erstellt werden.
 - **Authentifizierung zur Laufzeit**: Der Flow läuft unter der Identität, die
   Copilot Studio dem Agent zur Laufzeit bereitstellt — nicht unter der
-  Identität der Deploy-Skript-App. Die Deploy-App benötigt nur Schreibrechte
-  auf das `workflow`-Tabelle, nicht auf `mueller_agentdecision`.
+  Identität der Deploy-Skript-App.
+
+## Erkenntnisse aus der Bereitstellung (T17 v1 → v2)
+
+Während des ersten Bereitstellungsversuchs traten zwei nicht-offensichtliche
+Hürden auf, die für alle weiteren 26 Werkzeuge des Katalogs relevant sind.
+Beide werden in [`docs/architektur.md`](../../../docs/architektur.md) im
+Abschnitt *Sicherheits- und Datenschutzmodell* zusammengefasst.
+
+### 1. Connection-Authorization-Hürde (Python-Bereitstellungspfad)
+
+`POST /api/data/v9.2/workflows` mit Service-Principal-Identität (`msal`
+Client-Credentials) **legt** den Workflow-Datensatz an, kann ihn aber
+**nicht aktivieren**, wenn die Connection-Reference einer anderen Identität
+gehört. Beim `PATCH` auf `statecode=1` antwortet der Power-Automate-Flow-
+Client mit:
+
+> *Connection 'new_sharedcommondataserviceforapps_…' to
+> 'shared_commondataserviceforapps' cannot be used to activate this flow,
+> either because this is not a valid connection or because it is not a
+> connection you have access permission for.*
+
+**Konsequenz**: `deploy.py` erzeugt den Datensatz, lässt ihn aber als
+Entwurf (`statecode=0`) zurück. Eine produktive Aktivierung erfordert
+einen menschlichen Klick auf **Publish** im Maker — durch den
+Verbindungseigentümer. Genau das ist im Maker passiert, und die
+Bereitstellung war erfolgreich.
+
+**Empfehlung für die restlichen 26 Werkzeuge**: Python für die Erzeugung
+der Workflow-JSON-Definition verwenden, die finale Aktivierung jedoch
+über die Maker-Oberfläche (oder einen In-Browser-Coding-Agent, der als
+Verbindungseigentümer angemeldet ist) durchführen.
+
+### 2. Skills-Trigger-Schlüssel-Umbenennung
+
+Wenn Eingaben am `When an agent calls the flow`-Trigger (`type=Request,
+kind=Skills`) hinzugefügt werden, **erzeugt Copilot Studio interne
+Schlüsselnamen automatisch**, basierend auf dem Eingabetyp — *nicht* auf
+dem Namen, den die Anwender:in vergibt:
+
+| Eingabe-Titel (sichtbar) | Interner Schlüssel (`triggerBody()?['…']`) |
+|---|---|
+| `customer_id` (Text) | `text` |
+| `reasoning` (Text) | `text_1` |
+| `confidence_score` (Number) | `number` |
+| `model_name` (Text) | `text_2` |
+
+**Konsequenz**: handschriftlich eingetragene Power-Fx-Ausdrücke wie
+`triggerBody()?['customer_id']` liefern zur Laufzeit `null` zurück, weil
+der Schlüssel `customer_id` gar nicht existiert. Der erste Smoke-Test
+schlug deshalb mit einem `/accounts()`-OData-Bind-Fehler fehl.
+
+**Empfehlung**: Bei Skills-Triggern **niemals Schlüsselnamen
+handschriftlich tippen**. Stattdessen den Dynamic-Content-Picker (Blitz-
+Symbol) verwenden — dieser kennt den richtigen internen Schlüssel.
+Innerhalb eines `concat()`- oder anderen `fx`-Ausdrucks lässt sich der
+Picker ebenfalls verschachteln. Dieser Reflex muss bei jedem Werkzeug
+mit Skills-Trigger automatisch sitzen.
+
+### Verifizierte produktive Aufrufe
+
+Bei der ersten erfolgreichen Bereitstellung wurden zwei Audit-Datensätze
+geschrieben und extern via Web API gegengeprüft:
+
+| `mueller_agentdecisionid` | Auslöser | `mueller_modelname` | Konfidenz | Kunde |
+|---|---|---|---|---|
+| `b419eb11-ca48-f111-bec6-70a8a511e555` | Smoke-Test aus dem Test-Pane des Flows | `gpt-4o-smoke-test` | 0,95 | Augsburg Elektrotechnik GmbH & Co. KG |
+| `8864b55b-cc48-f111-bec6-70a8a511e555` | Generative Orchestrierung aus dem Agent-Test-Pane | `gpt-4o` | 0,90 | Augsburg Elektrotechnik GmbH & Co. KG |
+
+Beide laufen unter Owner *Fawzi Hatem* — bestätigt, dass das Werkzeug
+zur Laufzeit unter der Identität der angemeldeten Anwender:in läuft.
 
 ## Hintergrund: warum die Trigger-/Antwort-Struktur kein Geheimnis ist
 

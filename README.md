@@ -137,7 +137,7 @@ usw.) sind nicht als Wissensquelle, sondern über Werkzeuge erreichbar.
 
 - **`Get Customer Open Invoices`** — Agent-Flow, der für einen Kunden alle
   offenen Rechnungen sortiert nach Außenstand liefert. Detailspezifikation
-  in [`copilot_studio/tools/get_customer_open_invoices.md`](copilot_studio/tools/get_customer_open_invoices.md).
+  in [`copilot_studio/tools/get_customer_open_invoices/README.md`](copilot_studio/tools/get_customer_open_invoices/README.md).
 
 **Vorbereitet** (Schema, Daten, Authentifizierung steht):
 
@@ -246,7 +246,9 @@ ki-forderungsmanagement-agent/
 └── copilot_studio/                        ← Agent-Artefakte
     ├── instructions.md                    ← Master-Prompt
     ├── knowledge_sources.md               ← 15 Wissensquellen mit Beschreibung
-    └── tools/get_customer_open_invoices.md ← Spezifikation des produktiven Werkzeugs
+    └── tools/
+        ├── get_customer_open_invoices/README.md ← Werkzeug 1 (produktiv, via Maker-UI)
+        └── log_agent_decision/                  ← Werkzeug 2 (programmatisch, via Python-SDK)
 ```
 
 ## Lizenz und Kontakt

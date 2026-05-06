@@ -85,7 +85,7 @@ def main() -> None:
     params = {
         "$select": select_cols,
         "$filter": odata_filter,
-        "$expand": "customerid_account($select=name,accountnumber)",
+        "$expand": "customerid_account($select=name,accountnumber,emailaddress1)",
         "$orderby": "mueller_outstandingamount desc",
     }
 
@@ -106,6 +106,7 @@ def main() -> None:
             "invoicenumber": inv.get("invoicenumber") or "",
             "customer": cname,
             "accountnumber": cust.get("accountnumber") or "",
+            "email": cust.get("emailaddress1") or "",
             "duedate": _date(inv.get("duedate")),
             "days_overdue": _days_overdue(inv.get("duedate"), today),
             "totalamount": gross,
@@ -133,7 +134,7 @@ def main() -> None:
         print("(no open invoices found)")
         return
 
-    header = (f"{'Invoice':14} {'Customer':40} {'Due':12} {'Days':>5} "
+    header = (f"{'Invoice':14} {'Customer':35} {'Email':30} {'Due':12} {'Days':>5} "
               f"{'Total EUR':>14} {'Outstanding':>14} {'Risk':>6} {'Flags':6}")
     print(header)
     print("-" * len(header))
@@ -147,7 +148,8 @@ def main() -> None:
             flags.append("!")
         flag_str = "".join(flags) or " "
         print(f"{r['invoicenumber']:14} "
-              f"{r['customer'][:40]:40} "
+              f"{r['customer'][:35]:35} "
+              f"{(r['email'] or '')[:30]:30} "
               f"{r['duedate']:12} "
               f"{str(r['days_overdue']):>5} "
               f"{_eur(r['totalamount'])} "

@@ -164,6 +164,27 @@ usw.) sind nicht als Wissensquelle, sondern über Werkzeuge erreichbar.
   menschliche Übergabe, Ratenplanvereinbarung)
 - Anbindung externer Bonitätssignale (Creditreform-Web-Service)
 
+### Testing & Demo-Vorbereitung
+
+Für E-Mail-versendende Agent-Flows existiert ein **Demo-Hilfswerkzeug**
+`set_test_email.py`, das die `emailaddress1` aller Kundenkonten mit
+mindestens einer offenen Rechnung auf eine Testadresse umschreibt — damit
+während einer Live-Demo alle vom Agent verfassten Mahnungen im Postfach
+des Vorführenden landen statt bei den synthetischen Kunden. Der Befehl
+ist **idempotent**, **dry-run-Standard**, sichert die Originaladressen in
+`output/emails_backup.json` (gitignoriert) und stellt sie via `--restore`
+wiederher. Nicht für Produktionsumgebungen — strict Demo-Werkzeug.
+
+```bash
+.venv/bin/python -m ki_forderungsmanagement.set_test_email                  # Trockenlauf
+.venv/bin/python -m ki_forderungsmanagement.set_test_email --apply          # Anwenden
+.venv/bin/python -m ki_forderungsmanagement.set_test_email --restore        # Zurücksetzen
+```
+
+`list_open_invoices.py` zeigt zusätzlich die `Email`-Spalte jedes
+Kundens, sodass vor und nach der Umschreibung verifiziert werden kann,
+welche Adresse tatsächlich anvisiert wird.
+
 ## Engineering-Praktiken
 
 ### Schemaprovisierung als Code
